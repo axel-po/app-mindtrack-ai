@@ -2,14 +2,10 @@ import {
   IconCamera,
   IconChartBar,
   IconDashboard,
-  IconDatabase,
   IconFileAi,
   IconFileDescription,
-  IconFileWord,
   IconHelp,
   IconListDetails,
-  IconReport,
-  IconSearch,
   IconSettings,
   IconUsers,
   IconCirclePlusFilled,
@@ -29,23 +25,22 @@ export const sidebarConfig = {
     },
     {
       title: "Habitudes",
-      url: "/habits",
+      url: "/dashboard/habits",
       icon: IconDashboard,
     },
     {
       title: "Journal",
-      url: "/journal",
+      url: "/dashboard/journal",
       icon: IconListDetails,
     },
     {
       title: "Analyse",
-      url: "/analysis",
+      url: "/dashboard/analysis",
       icon: IconChartBar,
     },
-
     {
-      title: "Partage",
-      url: "/share",
+      title: "Communauté",
+      url: "/dashboard/share",
       icon: IconUsers,
     },
   ],
@@ -97,38 +92,33 @@ export const sidebarConfig = {
       ],
     },
   ],
+  documents: [
+    {
+      name: "Rapport mensuel",
+      url: "/dashboard/documents/monthly-report",
+      icon: IconFileDescription,
+    },
+    {
+      name: "Analyse des habitudes",
+      url: "/dashboard/documents/habits-analysis",
+      icon: IconChartBar,
+    },
+    {
+      name: "Notes personnelles",
+      url: "/dashboard/documents/personal-notes",
+      icon: IconFileAi,
+    },
+  ],
   navSecondary: [
     {
-      title: "Settings",
+      title: "Paramètres",
       url: "#",
       icon: IconSettings,
     },
     {
-      title: "Get Help",
+      title: "Aide",
       url: "#",
       icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
     },
   ],
 };
