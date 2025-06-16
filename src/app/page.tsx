@@ -1,8 +1,16 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getUser } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const user = await getUser();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 flex flex-col pt-16">
@@ -23,7 +31,7 @@ export default function HomePage() {
             <div className="mt-8">
               <Link href="/login">
                 <Button className="rounded-full px-8 py-6 bg-indigo-600 hover:bg-indigo-700">
-                  Commencer gratuitement
+                  Commencer
                   <span className="ml-2">→</span>
                 </Button>
               </Link>
