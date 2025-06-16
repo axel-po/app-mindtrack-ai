@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { deleteHabit } from "@/app/habits/action";
+import { deleteHabit } from "@/app/dashboard/habits/action";
 import { toast } from "sonner";
 
 export function DeleteHabitDialog({ habit }: { habit: HabitModel }) {

@@ -13,7 +13,6 @@ interface EmojiPickerProps {
   onEmojiSelect?: (emoji: string) => void;
 }
 
-// Composant de sélection d'emoji
 export function EmojiPicker({
   defaultEmoji = "✨",
   onEmojiSelect,

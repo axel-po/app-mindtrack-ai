@@ -14,7 +14,7 @@ export async function createJournalEntry(
   try {
     const result = await addJournalEntryService(entry, habitIds);
     revalidatePath("/dashboard");
-    revalidatePath("/journal");
+    revalidatePath("/dashboard/journal");
     return {
       success: true,
       data: result,
@@ -39,7 +39,7 @@ export async function toggleHabitCompletion(
   try {
     await toggleHabitCompletionService(entryId, habitId, completed);
     revalidatePath("/dashboard");
-    revalidatePath("/journal");
+    revalidatePath("/dashboard/journal");
     return {
       success: true,
     };

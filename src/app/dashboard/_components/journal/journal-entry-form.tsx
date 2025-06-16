@@ -36,7 +36,7 @@ import { fr } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { HabitModel } from "@/types/habit-types";
 import { useSession } from "@/lib/auth-client";
-import { createJournalEntry } from "@/app/journal/action";
+import { createJournalEntry } from "@/app/dashboard/journal/action";
 import { toast } from "sonner";
 
 const journalEntrySchema = z.object({

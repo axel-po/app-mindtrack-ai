@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { EmojiPicker } from "./emoji-picker";
-import { createHabit, updateHabit } from "@/app/habits/action";
+import { createHabit, updateHabit } from "@/app/dashboard/habits/action";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
