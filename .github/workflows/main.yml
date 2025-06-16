@@ -28,3 +28,5 @@ jobs:
           context: .
           push: true
           tags: mindtrackai/app-mindtracker-ai:latest
+          build-args: |
+            BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET }}
