@@ -25,6 +25,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./docker/prod
+          context: .
+          file: ./docker/prod/Dockerfile
           push: true
           tags: mindtrackai/app-mindtracker-ai:latest
