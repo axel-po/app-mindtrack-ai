@@ -26,6 +26,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          file: ./docker/prod/Dockerfile
           push: true
           tags: mindtrackai/app-mindtracker-ai:latest
           build-args: |
