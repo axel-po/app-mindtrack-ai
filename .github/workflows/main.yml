@@ -25,9 +25,10 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
+          build-args: |
+            BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET }}
           context: .
           file: ./docker/prod/Dockerfile
           push: true
           tags: mindtrackai/app-mindtracker-ai:latest
-          build-args: |
-            BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET }}
+
