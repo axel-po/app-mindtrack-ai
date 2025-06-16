@@ -57,7 +57,7 @@ export const AuthButton = async () => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm">
           <Avatar className="size-6">
-            <AvatarFallback>{user.email[0].toUpperCase()}</AvatarFallback>
+            <AvatarFallback></AvatarFallback>
           </Avatar>
           <p>{user.name}</p>
         </Button>

@@ -11,7 +11,7 @@ import { revalidatePath } from "next/cache";
 export async function createHabit(habit: NewHabitModel) {
   try {
     const result = await createHabitService(habit);
-    revalidatePath("/habits");
+    revalidatePath("/dashboard/habits");
     return {
       success: true,
       data: result,
@@ -31,7 +31,7 @@ export async function createHabit(habit: NewHabitModel) {
 export async function updateHabit(habit: HabitModel) {
   try {
     const result = await updateHabitService(habit);
-    revalidatePath("/habits");
+    revalidatePath("/dashboard/habits");
     return {
       success: true,
       data: result,
@@ -52,7 +52,7 @@ export async function deleteHabit(id: string) {
   try {
     const result = await deleteHabitService(id);
 
-    revalidatePath("/habits");
+    revalidatePath("/dashboard/habits");
     return {
       success: true,
       data: result,

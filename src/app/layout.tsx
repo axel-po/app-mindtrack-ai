@@ -1,6 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import { Header } from "@/components/@shared/nav/header";
 import { ThemeProvider } from "@/components/@shared/theme/theme-provider";
 
 export const metadata = {
@@ -24,7 +23,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
           <main>{children}</main>
           <Toaster position="top-center" />
         </ThemeProvider>
