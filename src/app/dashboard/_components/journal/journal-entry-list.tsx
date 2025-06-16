@@ -3,7 +3,7 @@
 import * as React from "react";
 import { JournalEntryWithCompletions } from "@/data/repositories/journal-entries-repository";
 import { HabitModel } from "@/types/habit-types";
-import { toggleHabitCompletion } from "@/app/journal/action";
+import { toggleHabitCompletion } from "@/app/dashboard/journal/action";
 import { toast } from "sonner";
 
 interface JournalEntryListProps {
