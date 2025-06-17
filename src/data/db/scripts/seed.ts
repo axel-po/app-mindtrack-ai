@@ -45,27 +45,56 @@ const sampleThoughts = [
   "Réflexion profonde sur mes objectifs",
   "Moment de gratitude pour ce que j'ai",
   "Énergie positive contagieuse aujourd'hui",
+  "Séance de yoga matinale très relaxante",
+  "Conversation inspirante avec un mentor",
+  "Projet créatif avancé aujourd'hui",
+  "Moment de méditation profonde",
+  "Sortie culturelle enrichissante",
+  "Cours en ligne passionnant terminé",
+  "Aide apportée à une personne dans le besoin",
+  "Recette maison réussie pour la première fois",
+  "Appel téléphonique réconfortant avec un ami",
+  "Promenade matinale revigorante",
+  "Séance de jardinage thérapeutique",
+  "Film documentaire captivant regardé",
+  "Atelier créatif très stimulant",
+  "Moment de lecture captivante",
+  "Découverte d'un café cosy en ville",
+  "Session de brainstorming productive",
+  "Exercice de respiration apaisant",
+  "Visite de musée culturellement enrichissante",
+  "Préparation d'un cadeau fait main",
+  "Observation des étoiles contemplative",
+  "Randonnée en montagne ressourçante",
+  "Séance de photographie créative",
+  "Cours de danse amusant et énergisant",
+  "Moment de journaling introspectif",
+  "Préparation d'un repas healthy",
+  "Écoute de podcast inspirant",
+  "Séance de stretching relaxante",
+  "Temps passé avec mon animal de compagnie",
+  "Réorganisation de mon espace de travail",
+  "Planification de mes objectifs futurs",
 ];
 
 const moods = ["good", "neutral", "sad"] as const;
 
-// Generate random date within last 60 days
-function getRandomDate(): string {
+// Generate unique dates for the last 50 days
+function generateUniqueDates(): string[] {
+  const dates = [];
   const today = new Date();
-  const pastDate = new Date(
-    today.getTime() - Math.floor(Math.random() * 60) * 24 * 60 * 60 * 1000
-  );
-  return pastDate.toISOString().split("T")[0];
+
+  for (let i = 0; i < 50; i++) {
+    const pastDate = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
+    dates.push(pastDate.toISOString().split("T")[0]);
+  }
+
+  return dates;
 }
 
 // Get random mood
 function getRandomMood() {
   return moods[Math.floor(Math.random() * moods.length)];
-}
-
-// Get random thought
-function getRandomThought(): string {
-  return sampleThoughts[Math.floor(Math.random() * sampleThoughts.length)];
 }
 
 async function seed() {
@@ -102,6 +131,9 @@ async function seed() {
       console.log(`  ✅ Created habit: ${habit.name} ${habit.emoji}`);
     }
 
+    // Generate unique dates
+    const uniqueDates = generateUniqueDates();
+
     // Create 50 journal entries
     console.log("📔 Creating journal entries...");
     const createdEntries = [];
@@ -111,9 +143,9 @@ async function seed() {
         .insert(entries)
         .values({
           userId: existingUser.id,
-          date: getRandomDate(),
+          date: uniqueDates[i],
           mood: getRandomMood(),
-          thought: getRandomThought(),
+          thought: sampleThoughts[i], // Use unique thought for each entry
         })
         .returning();
 
