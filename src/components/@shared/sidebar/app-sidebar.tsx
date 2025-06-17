@@ -5,11 +5,10 @@ import * as React from "react";
 import { NavDocuments } from "@/components/@shared/nav/nav-documents";
 import { NavMain } from "@/components/@shared/nav/nav-main";
 import { NavSecondary } from "@/components/@shared/nav/nav-secondary";
-import { NavUser } from "@/components/@shared/nav/nav-user";
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -42,9 +41,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavDocuments items={sidebarConfig.documents} />
         <NavSecondary items={sidebarConfig.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={sidebarConfig.user} />
-      </SidebarFooter>
     </Sidebar>
   );
 }
