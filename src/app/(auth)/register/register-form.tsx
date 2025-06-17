@@ -25,6 +25,8 @@ import {
 import { signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTransition } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -51,6 +53,7 @@ export function RegisterForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,21 +65,23 @@ export function RegisterForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await signUp.email(
-      {
-        email: values.email,
-        name: values.name,
-        password: values.password,
-      },
-      {
-        onSuccess: () => {
-          router.push("/dashboard");
+    startTransition(async () => {
+      await signUp.email(
+        {
+          email: values.email,
+          name: values.name,
+          password: values.password,
         },
-        onError: (error) => {
-          toast.error(`Erreur: ${error.error.message}`);
-        },
-      }
-    );
+        {
+          onSuccess: () => {
+            router.push("/dashboard");
+          },
+          onError: (error) => {
+            toast.error(`Erreur: ${error.error.message}`);
+          },
+        }
+      );
+    });
   }
 
   return (
@@ -160,8 +165,15 @@ export function RegisterForm({
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  S&apos;inscrire
+                <Button type="submit" className="w-full" disabled={isPending}>
+                  {isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Inscription...
+                    </>
+                  ) : (
+                    "S'inscrire"
+                  )}
                 </Button>
               </div>
               <div className="text-center text-sm">
