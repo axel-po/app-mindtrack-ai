@@ -60,36 +60,77 @@ export function HabitTrackingChart({
     });
   }, [entries, timeRange]);
 
-  // Calculate habit completion data
-  const habitCompletionData = React.useMemo(() => {
-    // Create a map to track habit completion counts
-    const habitCompletionCounts = new Map<string, number>();
-    habits.forEach((habit) => habitCompletionCounts.set(habit.id, 0));
+  // Calculate daily habit completion data
+  const dailyHabitData = React.useMemo(() => {
+    const now = new Date();
+    const pastDate = new Date();
 
-    // Count completions for each habit
-    filteredEntries.forEach((entry) => {
-      entry.completedHabits.forEach((completedHabit) => {
-        const currentCount = habitCompletionCounts.get(completedHabit.id) || 0;
-        habitCompletionCounts.set(completedHabit.id, currentCount + 1);
+    switch (timeRange) {
+      case "7d":
+        pastDate.setDate(now.getDate() - 7);
+        break;
+      case "30d":
+        pastDate.setDate(now.getDate() - 30);
+        break;
+      case "90d":
+        pastDate.setDate(now.getDate() - 90);
+        break;
+      default:
+        pastDate.setDate(now.getDate() - 30);
+    }
+
+    // Create array of all days in range
+    const days = [];
+    const currentDate = new Date(pastDate);
+
+    while (currentDate <= now) {
+      days.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    // Map each day to completion data
+    return days.map((day) => {
+      const dayString = day.toISOString().split("T")[0];
+      const dayEntries = filteredEntries.filter((entry) => {
+        const entryDate = new Date(entry.date);
+        return entryDate.toISOString().split("T")[0] === dayString;
       });
-    });
 
-    // Convert to chart data format
-    return habits.map((habit) => ({
-      name: habit.name,
-      emoji: habit.emoji || "📌",
-      count: habitCompletionCounts.get(habit.id) || 0,
-    }));
-  }, [habits, filteredEntries]);
+      // Count total completions for this day
+      const totalCompletions = dayEntries.reduce(
+        (sum, entry) => sum + entry.completedHabits.length,
+        0
+      );
+
+      // Calculate completion rate (percentage of habits completed)
+      const completionRate =
+        habits.length > 0
+          ? Math.round((totalCompletions / habits.length) * 100)
+          : 0;
+
+      return {
+        date: dayString,
+        day: day.getDate(),
+        month: day.toLocaleDateString("fr-FR", { month: "short" }),
+        totalCompletions,
+        completionRate,
+        formattedDate: day.toLocaleDateString("fr-FR", {
+          day: "numeric",
+          month: "short",
+        }),
+      };
+    });
+  }, [habits, filteredEntries, timeRange]);
 
   // Chart configuration
   const chartConfig = {
-    habits: {
-      label: "Habitudes",
+    totalCompletions: {
+      label: "Complétions totales",
+      color: "hsl(var(--primary))",
     },
-    count: {
-      label: "Complétions",
-      color: "var(--primary)",
+    completionRate: {
+      label: "Taux de complétion (%)",
+      color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
 
@@ -100,7 +141,7 @@ export function HabitTrackingChart({
           <div>
             <CardTitle>Suivi des Habitudes</CardTitle>
             <CardDescription>
-              Fréquence de complétion de vos habitudes
+              Évolution quotidienne de vos habitudes
             </CardDescription>
           </div>
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -116,51 +157,54 @@ export function HabitTrackingChart({
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        {habitCompletionData.length > 0 ? (
+        {dailyHabitData.length > 0 ? (
           <ChartContainer
             config={chartConfig}
             className="aspect-auto h-[250px] w-full"
           >
             <BarChart
-              data={habitCompletionData}
-              layout="vertical"
-              margin={{ left: 80 }}
+              data={dailyHabitData}
+              margin={{ left: 12, right: 12, top: 12, bottom: 12 }}
             >
-              <CartesianGrid
-                horizontal={true}
-                vertical={false}
-                strokeDasharray="3 3"
-              />
-              <XAxis type="number" />
-              <YAxis
-                type="category"
-                dataKey="name"
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="formattedDate"
                 tick={{ fontSize: 12 }}
-                tickFormatter={(value) => {
-                  // Limit text length to avoid overflow
-                  const maxLength = 15;
-                  return value.length > maxLength
-                    ? value.substring(0, maxLength) + "..."
-                    : value;
-                }}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={false}
               />
               <Tooltip
                 content={
                   <ChartTooltipContent
-                    formatter={(value, name, props) => (
-                      <div className="flex items-center gap-1">
-                        <span>{props.payload.emoji}</span>
-                        <span>{props.payload.name}: </span>
-                        <span className="font-medium">{value} fois</span>
+                    formatter={(value, name) => (
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="h-2 w-2 rounded-full"
+                          style={{
+                            backgroundColor:
+                              chartConfig[name as keyof typeof chartConfig]
+                                ?.color,
+                          }}
+                        />
+                        <span className="font-medium">
+                          {chartConfig[name as keyof typeof chartConfig]?.label}
+                          : {value}
+                          {name === "completionRate" ? "%" : ""}
+                        </span>
                       </div>
                     )}
                   />
                 }
               />
               <Bar
-                dataKey="count"
-                fill="var(--color-count)"
-                radius={[0, 4, 4, 0]}
+                dataKey="totalCompletions"
+                fill="var(--color-totalCompletions)"
+                radius={[4, 4, 0, 0]}
               />
             </BarChart>
           </ChartContainer>
