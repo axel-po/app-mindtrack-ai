@@ -5,27 +5,21 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 
 // Define the MoodType based on schema used in the application
-export type MoodType = "happy" | "neutral" | "sad";
+export type MoodType = "good" | "neutral" | "sad";
 
-// Map of mood to emojis, labels and colors
-const moodEmojis: Record<
-  MoodType,
-  { emoji: string; label: string; color: string }
-> = {
-  happy: {
+// Map of mood to emojis and labels
+const moodEmojis: Record<MoodType, { emoji: string; label: string }> = {
+  good: {
     emoji: "😊",
     label: "Heureux",
-    color: "bg-green-100 dark:bg-green-900/20",
   },
   neutral: {
     emoji: "😐",
     label: "Neutre",
-    color: "bg-blue-100 dark:bg-blue-900/20",
   },
   sad: {
     emoji: "😔",
     label: "Triste",
-    color: "bg-red-100 dark:bg-red-900/20",
   },
 };
 
@@ -47,29 +41,28 @@ export function MoodSelector({
   };
 
   return (
-    <div className={cn("space-y-4", className)}>
-      <p className="text-base font-medium text-center mb-2">
+    <div className={cn("space-y-2", className)}>
+      <p className="text-sm text-muted-foreground text-center">
         Comment vous sentez-vous aujourd&apos;hui ?
       </p>
       <ToggleGroup
         type="single"
         value={value}
         onValueChange={handleChange}
-        className="flex justify-center gap-4"
+        className="flex justify-center gap-2"
       >
-        {Object.entries(moodEmojis).map(([key, { emoji, label, color }]) => (
+        {Object.entries(moodEmojis).map(([key, { emoji, label }]) => (
           <ToggleGroupItem
             key={key}
             value={key}
             aria-label={label}
             className={cn(
-              "flex h-24 w-24 flex-col items-center justify-center rounded-full text-4xl transition-all duration-200 hover:scale-105",
-              color,
-              value === key ? "ring-2 ring-primary shadow-md scale-105" : ""
+              "flex h-16 w-16 flex-col items-center justify-center border rounded-md text-2xl",
+              value === key ? "border-primary bg-muted" : "border-border"
             )}
           >
-            <span className="mb-2">{emoji}</span>
-            <span className="text-xs font-medium">{label}</span>
+            <span>{emoji}</span>
+            <span className="text-[10px] mt-1">{label}</span>
           </ToggleGroupItem>
         ))}
       </ToggleGroup>

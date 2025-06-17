@@ -5,8 +5,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { JournalEntryButton } from "@/app/dashboard/_components/journal/journal-entry-button";
-import { JournalEntryList } from "@/app/dashboard/_components/journal/journal-entry-list";
+import { JournalEntryButton } from "@/app/dashboard/_components/journal/@shared/journal-entry-button";
+import { JournalEntryList } from "@/app/dashboard/_components/journal/data/journal-entry-list";
 import { SectionCards } from "@/components/section-cards";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { unauthorized } from "next/navigation";

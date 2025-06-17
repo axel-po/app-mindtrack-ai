@@ -4,7 +4,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { HabitChecklist } from "../habits/habit-checklist";
+import { HabitChecklist } from "../../habits/habit-checklist";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,7 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "../../../../components/ui/textarea";
+import { Textarea } from "../../../../../components/ui/textarea";
 
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
@@ -38,10 +38,12 @@ import { HabitModel } from "@/types/habit-types";
 import { useSession } from "@/lib/auth-client";
 import { createJournalEntry } from "@/app/dashboard/journal/action";
 import { toast } from "sonner";
+import { MoodSelector } from "../@shared/mood-selector";
+import { Separator } from "@/components/ui/separator";
 
 const journalEntrySchema = z.object({
   date: z.date(),
-  mood: z.enum(["good", "neutral", "sad"]),
+  mood: z.enum(["good", "neutral", "sad"] as const),
   thought: z.string().min(3, "Veuillez partager au moins quelques pensées"),
 });
 
@@ -119,7 +121,7 @@ export function JournalEntryForm({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardContent className="space-y-6">
+          <CardContent className="p-0 space-y-6">
             <FormField
               control={form.control}
               name="date"
@@ -160,24 +162,28 @@ export function JournalEntryForm({
               )}
             />
 
-            {/* <FormField
+            <Separator />
+
+            <FormField
               control={form.control}
               name="mood"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="sr-only">
                     Comment vous sentez-vous aujourd&apos;hui ?
                   </FormLabel>
                   <FormControl>
                     <MoodSelector
                       value={field.value}
-                      onChange={field.onChange}
+                      onValueChange={field.onChange}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
+
+            <Separator />
 
             <FormField
               control={form.control}
@@ -212,7 +218,15 @@ export function JournalEntryForm({
             </div>
           </CardContent>
 
-          <CardFooter className="flex justify-end">
+          <CardFooter className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              type="button"
+              onClick={() => form.reset()}
+              disabled={isSubmitting}
+            >
+              Réinitialiser
+            </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Enregistrement..." : "Enregistrer la réflexion"}
             </Button>
