@@ -11,6 +11,10 @@ import { getUserHabits } from "@/services/habits-service";
 import { getUserJournalEntriesWithHabits } from "@/services/journal-entries-service";
 import { JournalEntryList } from "@/app/dashboard/_components/journal/data/journal-entry-list";
 import { JournalEntryButton } from "@/app/dashboard/_components/journal/@shared/journal-entry-button";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function JournalPage() {
   const user = await getUser();
@@ -39,22 +43,24 @@ export default async function JournalPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {entries.length > 0 ? (
-            <JournalEntryList entries={entries} habits={habits} />
-          ) : (
-            <div className="rounded-lg border p-8 text-center">
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted text-4xl">
-                😊
+          <Suspense fallback={<div>Chargement des entrées...</div>}>
+            {entries.length > 0 ? (
+              <JournalEntryList entries={entries} habits={habits} />
+            ) : (
+              <div className="rounded-lg border p-8 text-center">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted text-4xl">
+                  😊
+                </div>
+                <h3 className="mt-4 text-lg font-semibold">
+                  Commencez à suivre votre progression
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Ajoutez votre première entrée journalière pour commencer à
+                  suivre votre humeur et vos habitudes.
+                </p>
               </div>
-              <h3 className="mt-4 text-lg font-semibold">
-                Commencez à suivre votre progression
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Ajoutez votre première entrée journalière pour commencer à
-                suivre votre humeur et vos habitudes.
-              </p>
-            </div>
-          )}
+            )}
+          </Suspense>
         </CardContent>
       </Card>
 

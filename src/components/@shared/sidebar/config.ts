@@ -40,7 +40,7 @@ export const sidebarConfig = {
     },
     {
       title: "Communauté",
-      url: "/dashboard/share",
+      url: "/dashboard/community",
       icon: IconUsers,
     },
   ],

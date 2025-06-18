@@ -117,3 +117,18 @@ export async function getEntriesWithHabitsByUserId(
 
   return result;
 }
+
+export async function updateEntry(id: string, data: Partial<NewEntry>) {
+  const [updatedEntry] = await db
+    .update(entries)
+    .set(data)
+    .where(eq(entries.id, id))
+    .returning();
+
+  return updatedEntry;
+}
+
+export async function deleteEntry(id: string) {
+  // This will cascade delete related entryHabits due to foreign key constraints
+  return db.delete(entries).where(eq(entries.id, id));
+}

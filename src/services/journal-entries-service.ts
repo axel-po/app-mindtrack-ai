@@ -9,6 +9,8 @@ import {
   getEntryWithHabits,
   removeHabitFromEntry,
   getEntriesWithHabitsByUserId,
+  updateEntry,
+  deleteEntry,
 } from "@/data/repositories/journal-entries-repository";
 
 export async function addJournalEntry(input: NewEntry, habitIds?: string[]) {
@@ -72,4 +74,24 @@ export async function getEntriesByDateRange(
 
 export async function getUserJournalEntriesWithHabits(userId: string) {
   return getEntriesWithHabitsByUserId(userId);
+}
+
+export async function updateJournalEntry(id: string, data: Partial<NewEntry>) {
+  const entry = await getEntryById(id);
+
+  if (!entry) {
+    throw new Error(`Journal entry with id ${id} not found`);
+  }
+
+  return updateEntry(id, data);
+}
+
+export async function deleteJournalEntry(id: string) {
+  const entry = await getEntryById(id);
+
+  if (!entry) {
+    throw new Error(`Journal entry with id ${id} not found`);
+  }
+
+  return deleteEntry(id);
 }
