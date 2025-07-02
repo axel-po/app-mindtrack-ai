@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/userinterface/components/ui/button";
 import Link from "next/link";
 import { getUser } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
-import { Header } from "@/components/@shared/nav/header";
+import { Header } from "@/userinterface/components/@shared/nav/header";
 import {
   BrainCircuit,
   LineChart,

@@ -10,14 +10,14 @@
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx src/data/db/scripts/migrate.ts",
-    "db:clear": "tsx src/data/db/scripts/clear.ts",
-    "db:clear-data": "tsx src/data/db/scripts/clear-data.ts",
-    "db:check": "tsx src/data/db/scripts/check.ts",
+    "db:migrate": "tsx src/infrastructure/database/scripts/migrate.ts",
+    "db:clear": "tsx src/infrastructure/database/scripts/clear.ts",
+    "db:clear-data": "tsx src/infrastructure/database/scripts/clear-data.ts",
+    "db:check": "tsx src/infrastructure/database/scripts/check.ts",
     "db:push": "drizzle-kit push",
     "db:drop": "drizzle-kit drop",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "tsx src/data/db/scripts/seed.ts",
+    "db:seed": "tsx src/infrastructure/database/scripts/seed.ts",
     "db:reset-seed": "pnpm db:clear && pnpm db:drop && pnpm db:generate && pnpm db:push && pnpm db:seed",
     "test-husky": "vitest run",
     "test": "vitest --watch"
@@ -44,6 +44,7 @@
     "@tabler/icons-react": "^3.34.0",
     "@tanstack/react-table": "^8.21.3",
     "@types/uuid": "^10.0.0",
+    "awilix": "9.0.0",
     "better-auth": "^1.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -63,7 +64,8 @@
     "tailwind-merge": "^3.3.0",
     "uuid": "^11.1.0",
     "vaul": "^1.1.2",
-    "zod": "^3.25.51"
+    "zod": "^3.25.51",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

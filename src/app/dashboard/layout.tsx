@@ -1,6 +1,9 @@
-import { SiteHeader } from "@/components/@shared/nav/site-header";
-import { AppSidebar } from "@/components/@shared/sidebar/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SiteHeader } from "@/userinterface/components/@shared/nav/site-header";
+import { AppSidebar } from "@/userinterface/components/@shared/sidebar/app-sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+} from "@/userinterface/components/ui/sidebar";
 import React from "react";
 
 export default function DashboardLayout({
