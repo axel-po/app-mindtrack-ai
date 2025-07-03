@@ -1,6 +1,6 @@
 "use client";
 
-import { HabitModel, NewHabitModel } from "@/types/habit-types";
+import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import { Button } from "@/userinterface/components/ui/button";
 import { PlusCircle, Edit } from "lucide-react";
 import {
@@ -16,7 +16,7 @@ import { Input } from "@/userinterface/components/ui/input";
 import { Textarea } from "@/userinterface/components/ui/textarea";
 import { useState } from "react";
 import { EmojiPicker } from "./emoji-picker";
-import { createHabit, updateHabit } from "@/app/dashboard/habits/action";
+import { useHabitViewModel } from "../HabitViewModel";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,7 +29,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/userinterface/components/ui/form";
-import { useSession } from "@/lib/auth-client";
 
 const habitSchema = z.object({
   name: z.string().min(1, "Le nom est requis"),
@@ -44,10 +43,10 @@ export function HabitDialog({
   habit,
 }: {
   mode: "create" | "edit";
-  habit?: HabitModel;
+  habit?: HabitPresentation;
 }) {
   const [open, setOpen] = useState(false);
-  const { data: session } = useSession();
+  const { createHabit, updateHabit } = useHabitViewModel();
 
   const form = useForm<HabitFormValues>({
     resolver: zodResolver(habitSchema),
@@ -59,44 +58,33 @@ export function HabitDialog({
   });
 
   async function onSubmit(values: HabitFormValues) {
-    if (!session?.user?.id) {
-      toast.error("Vous devez être connecté pour créer une habitude");
-      return;
-    }
-
     try {
       if (mode === "create") {
-        const newHabit: NewHabitModel = {
-          ...values,
-          userId: session.user.id,
-        };
+        const result = await createHabit({
+          name: values.name,
+          description: values.description,
+          emoji: values.emoji,
+        });
 
-        const result = await createHabit(newHabit);
-
-        if (result.success) {
+        if (result) {
           toast.success("Habitude créée avec succès");
           setOpen(false);
           form.reset();
         } else {
-          toast.error(
-            result.error || "Erreur lors de la création de l'habitude"
-          );
+          toast.error("Erreur lors de la création de l'habitude");
         }
       } else if (habit) {
-        const updatedHabit: HabitModel = {
-          ...habit,
-          ...values,
-        };
+        const result = await updateHabit(habit.id, {
+          name: values.name,
+          description: values.description,
+          emoji: values.emoji,
+        });
 
-        const result = await updateHabit(updatedHabit);
-
-        if (result.success) {
+        if (result) {
           toast.success("Habitude mise à jour avec succès");
           setOpen(false);
         } else {
-          toast.error(
-            result.error || "Erreur lors de la mise à jour de l'habitude"
-          );
+          toast.error("Erreur lors de la mise à jour de l'habitude");
         }
       }
     } catch (error) {

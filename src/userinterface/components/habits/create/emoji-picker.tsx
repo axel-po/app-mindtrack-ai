@@ -1,48 +1,54 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/userinterface/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/userinterface/components/ui/popover";
-import { EMOJIS } from "../../../../app/dashboard/habits/_components/emojis";
+import { EMOJIS } from "./emojis";
 
 interface EmojiPickerProps {
   defaultEmoji?: string;
-  onEmojiSelect?: (emoji: string) => void;
+  onEmojiSelect: (emoji: string) => void;
 }
 
 export function EmojiPicker({
   defaultEmoji = "✨",
   onEmojiSelect,
 }: EmojiPickerProps) {
+  const [selectedEmoji, setSelectedEmoji] = useState(defaultEmoji);
+  const [open, setOpen] = useState(false);
+
+  const handleEmojiSelect = (emoji: string) => {
+    setSelectedEmoji(emoji);
+    onEmojiSelect(emoji);
+    setOpen(false);
+  };
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-9 h-9 text-xl p-0"
-          aria-label="Sélectionner un emoji"
+          className="h-10 w-10 rounded-full p-0 text-lg"
         >
-          {defaultEmoji}
+          {selectedEmoji}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64 p-2">
-        <div className="space-y-2">
-          <p className="text-sm font-medium">Choisissez un emoji</p>
-          <div className="grid grid-cols-6 gap-2">
-            {EMOJIS.map((emoji) => (
-              <Button
-                key={emoji}
-                variant="ghost"
-                className="h-9 w-9 p-0 text-lg"
-                onClick={() => onEmojiSelect?.(emoji)}
-              >
-                {emoji}
-              </Button>
-            ))}
-          </div>
+        <div className="grid grid-cols-8 gap-1">
+          {EMOJIS.map((emoji) => (
+            <Button
+              key={emoji}
+              variant="ghost"
+              className="h-8 w-8 p-0 text-lg"
+              onClick={() => handleEmojiSelect(emoji)}
+            >
+              {emoji}
+            </Button>
+          ))}
         </div>
       </PopoverContent>
     </Popover>

@@ -1,6 +1,6 @@
 "use client";
 
-import { HabitModel } from "@/types/habit-types";
+import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import { Button } from "@/userinterface/components/ui/button";
 import { Trash2 } from "lucide-react";
 import {
@@ -12,26 +12,24 @@ import {
   DialogTitle,
 } from "@/userinterface/components/ui/dialog";
 import { useState } from "react";
-import { deleteHabit } from "@/app/dashboard/habits/action";
+import { useHabitViewModel } from "../HabitViewModel";
 import { toast } from "sonner";
 
-export function DeleteHabitDialog({ habit }: { habit: HabitModel }) {
+export function DeleteHabitDialog({ habit }: { habit: HabitPresentation }) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { deleteHabit } = useHabitViewModel();
 
   async function handleDelete() {
-    console.log("Deleting habit:", habit.id);
     try {
       setIsDeleting(true);
-      const result = await deleteHabit(habit.id);
+      const success = await deleteHabit(habit.id);
 
-      if (result.success) {
+      if (success) {
         toast.success("Habitude supprimée avec succès");
         setOpen(false);
       } else {
-        toast.error(
-          result.error || "Erreur lors de la suppression de l'habitude"
-        );
+        toast.error("Erreur lors de la suppression de l'habitude");
       }
     } catch (error) {
       console.error("Delete error:", error);
@@ -43,14 +41,7 @@ export function DeleteHabitDialog({ habit }: { habit: HabitModel }) {
 
   return (
     <>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          console.log("Dialog trigger clicked");
-          setOpen(true);
-        }}
-      >
+      <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
         <Trash2 className="h-4 w-4 text-destructive" />
         <span className="sr-only">Supprimer</span>
       </Button>
@@ -89,10 +80,7 @@ export function DeleteHabitDialog({ habit }: { habit: HabitModel }) {
             </Button>
             <Button
               variant="destructive"
-              onClick={() => {
-                console.log("Delete button clicked");
-                handleDelete();
-              }}
+              onClick={handleDelete}
               disabled={isDeleting}
             >
               {isDeleting ? "Suppression..." : "Supprimer"}
