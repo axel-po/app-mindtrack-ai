@@ -1,8 +1,8 @@
 import React from "react";
 import { JournalPresentation } from "@/infrastructure/presenters/journal.presenter";
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
-import { Button } from "@/userinterface/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { JournalUpdateDialog } from "../update/journal-update";
+import { JournalDeleteDialog } from "../delete/journal-delete";
 
 // Type pour les propriétés du composant
 interface JournalItemProps {
@@ -37,6 +37,16 @@ export default function JournalItem({
 }: JournalItemProps) {
   // Determine which habits are completed for this journal
   const completedHabitIds = new Set(journal.habits.map((habit) => habit.id));
+
+  const handleEditSuccess = () => {
+    // Appeler le callback onEdit si fourni
+    onEdit?.(journal);
+  };
+
+  const handleDeleteSuccess = () => {
+    // Appeler le callback onDelete si fourni
+    onDelete?.(journal.id);
+  };
 
   return (
     <tr className="hover:bg-muted/20 transition-colors">
@@ -104,24 +114,15 @@ export default function JournalItem({
       {/* Actions */}
       <td className="p-3 text-right align-middle">
         <div className="flex items-center justify-end gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onEdit?.(journal)}
-            className="h-8 w-8"
-          >
-            <Pencil className="h-4 w-4" />
-            <span className="sr-only">Modifier</span>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onDelete?.(journal.id)}
-            className="h-8 w-8"
-          >
-            <Trash2 className="h-4 w-4" />
-            <span className="sr-only">Supprimer</span>
-          </Button>
+          <JournalUpdateDialog
+            entry={journal}
+            habits={habits}
+            onSuccess={handleEditSuccess}
+          />
+          <JournalDeleteDialog
+            journal={journal}
+            onSuccess={handleDeleteSuccess}
+          />
         </div>
       </td>
     </tr>

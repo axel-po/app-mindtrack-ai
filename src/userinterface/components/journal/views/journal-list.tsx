@@ -15,7 +15,7 @@ export default function JournalList({
   initialJournals,
   initialHabits,
 }: JournalListProps) {
-  const { journals, habits, isLoading, error, updateJournal, deleteJournal } =
+  const { journals, habits, isLoading, error, updateJournal, loadJournals } =
     useJournalViewModel();
 
   // Local state for pagination and updates
@@ -115,23 +115,16 @@ export default function JournalList({
     }
   };
 
-  // Handle edit journal
-  const handleEditJournal = (journal: JournalPresentation) => {
-    // This would typically open a dialog or navigate to edit page
-    toast.info(`Édition du journal du ${journal.date} à implémenter`);
+  // Handle edit journal - called after successful edit via dialog
+  const handleEditJournal = () => {
+    // Rafraîchir la liste après modification
+    loadJournals();
   };
 
-  // Handle delete journal
-  const handleDeleteJournal = async (journalId: string) => {
-    if (confirm("Êtes-vous sûr de vouloir supprimer cette entrée ?")) {
-      try {
-        await deleteJournal(journalId);
-        toast.success("Entrée supprimée avec succès");
-      } catch (error) {
-        console.error("Failed to delete journal:", error);
-        toast.error("Erreur lors de la suppression de l'entrée");
-      }
-    }
+  // Handle delete journal - called after successful delete via dialog
+  const handleDeleteJournal = () => {
+    // Rafraîchir la liste après suppression
+    loadJournals();
   };
 
   // Handle page change

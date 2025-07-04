@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/userinterface/components/ui/card";
 import { Skeleton } from "@/userinterface/components/ui/skeleton";
+import { JournalCreateDialog } from "./create/journal-create";
 
 export default function JournalView() {
   const { journals, habits, isLoading, error, loadJournals, loadHabits } =
@@ -40,7 +41,7 @@ export default function JournalView() {
               Suivez votre humeur et vos habitudes quotidiennes
             </CardDescription>
           </div>
-          {/* <JournalEntryButton habits={habits} /> */}
+          <JournalCreateDialog habits={habits} />
         </div>
       </CardHeader>
       <CardContent>
