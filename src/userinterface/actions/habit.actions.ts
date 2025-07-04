@@ -4,6 +4,7 @@ import { habitContainer } from "@/di/habit.ioc";
 import { HabitPresenter } from "@/infrastructure/presenters/habit.presenter";
 import { Habit } from "@/domain/models/habit.interface";
 
+// GET
 export async function getUserHabitsAction(userId: string) {
   try {
     const { data, error } = await habitContainer.habitUseCase.getUserHabits(
@@ -26,6 +27,7 @@ export async function getUserHabitsAction(userId: string) {
   }
 }
 
+// CREATE
 export async function createHabitAction(habitData: Omit<Habit, "id">) {
   try {
     const { data, error } = await habitContainer.habitUseCase.createHabit(
@@ -48,6 +50,7 @@ export async function createHabitAction(habitData: Omit<Habit, "id">) {
   }
 }
 
+// UPDATE
 export async function updateHabitAction(
   id: string,
   habitData: Partial<Omit<Habit, "id" | "userId">>
@@ -74,6 +77,7 @@ export async function updateHabitAction(
   }
 }
 
+// DELETE
 export async function deleteHabitAction(id: string) {
   try {
     const { success, error } = await habitContainer.habitUseCase.deleteHabit(
@@ -95,6 +99,7 @@ export async function deleteHabitAction(id: string) {
   }
 }
 
+// TOGGLE COMPLETION STATUS
 export async function toggleHabitCompletionAction(
   habitId: string,
   userId: string,

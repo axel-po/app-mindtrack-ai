@@ -4,6 +4,7 @@ import { journalContainer } from "@/di/journal.ioc";
 import { JournalPresenter } from "@/infrastructure/presenters/journal.presenter";
 import { Journal } from "@/domain/models/journal.interface";
 
+// GET
 export async function getJournalsByUserIdAction(userId: string) {
   try {
     const { data, error } =
@@ -25,6 +26,7 @@ export async function getJournalsByUserIdAction(userId: string) {
   }
 }
 
+// GET BY ID
 export async function getJournalByIdAction(id: string) {
   try {
     const { data, error } =

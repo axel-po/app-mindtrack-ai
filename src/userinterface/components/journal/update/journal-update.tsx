@@ -17,7 +17,6 @@ import { Button } from "@/userinterface/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -25,7 +24,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -40,13 +38,7 @@ import {
 } from "@/userinterface/components/ui/popover";
 import { Separator } from "@/userinterface/components/ui/separator";
 import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/userinterface/components/ui/card";
+import { Checkbox } from "@/userinterface/components/ui/checkbox";
 
 // Schema for form validation
 const journalEntrySchema = z.object({
@@ -73,11 +65,8 @@ function MoodSelector({
   ];
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <h3 className="text-center font-medium">
-        Comment vous sentez-vous aujourd&apos;hui ?
-      </h3>
-      <div className="flex justify-center gap-4">
+    <div className="flex flex-col space-y-3">
+      <div className="flex justify-center gap-6">
         {moods.map((mood) => (
           <button
             key={mood.value}
@@ -90,8 +79,10 @@ function MoodSelector({
                 : "hover:bg-muted"
             )}
           >
-            <span className="text-3xl">{mood.emoji}</span>
-            <span className="mt-1 text-sm">{mood.label}</span>
+            <span className="text-4xl">{mood.emoji}</span>
+            <span className="mt-1 text-xs font-medium text-muted-foreground">
+              {mood.label}
+            </span>
           </button>
         ))}
       </div>
@@ -118,24 +109,24 @@ function HabitChecklist({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
       {habits.map((habit) => (
         <div
           key={habit.id}
-          className="flex items-center gap-2 rounded-lg border p-3"
+          className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-muted/50"
         >
-          <input
-            type="checkbox"
+          <Checkbox
             id={`habit-${habit.id}`}
             checked={selectedHabits.includes(habit.id)}
-            onChange={(e) => onToggleHabit(habit.id, e.target.checked)}
-            className="h-4 w-4 rounded border-gray-300"
+            onCheckedChange={(checked) => onToggleHabit(habit.id, !!checked)}
           />
           <label
             htmlFor={`habit-${habit.id}`}
-            className="flex flex-1 cursor-pointer items-center gap-2"
+            className="flex flex-1 cursor-pointer items-center gap-2 text-sm"
           >
-            <span className="text-lg">{habit.emoji || "✨"}</span>
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-lg">
+              {habit.emoji || "✨"}
+            </span>
             <span>{habit.name}</span>
           </label>
         </div>
@@ -203,126 +194,122 @@ function JournalEntryEditForm({
   };
 
   return (
-    <Card className={cn("w-full max-w-2xl", className)}>
-      <CardHeader>
-        <CardTitle>Modifier l&apos;entrée journalière</CardTitle>
-      </CardHeader>
-
+    <div className={cn("w-full", className)}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardContent className="space-y-6">
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date de la réflexion</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "d MMMM yyyy", { locale: fr })
-                          ) : (
-                            <span>Sélectionnez une date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        captionLayout="dropdown"
-                        locale={fr}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Separator />
-
-            <FormField
-              control={form.control}
-              name="mood"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    Comment vous sentez-vous aujourd&apos;hui ?
-                  </FormLabel>
-                  <FormControl>
-                    <MoodSelector
-                      value={field.value}
-                      onValueChange={field.onChange}
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-sm font-medium text-muted-foreground">
+                  Date de la réflexion
+                </FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "d MMMM yyyy", { locale: fr })
+                        ) : (
+                          <span>Sélectionnez une date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      captionLayout="dropdown"
+                      locale={fr}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Separator className="my-6" />
+
+          <FormField
+            control={form.control}
+            name="mood"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="mb-2 block text-center text-sm font-medium text-muted-foreground">
+                  Comment vous sentez-vous aujourd&apos;hui ?
+                </FormLabel>
+                <FormControl>
+                  <MoodSelector
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Separator className="my-6" />
+
+          <FormField
+            control={form.control}
+            name="thought"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-muted-foreground">
+                  Partagez vos pensées
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Qu'avez-vous en tête aujourd'hui ?"
+                    className="min-h-32 resize-y border-muted bg-muted/5 focus-visible:border-primary"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div>
+            <FormLabel className="mb-3 block text-sm font-medium text-muted-foreground">
+              Habitudes Quotidiennes
+            </FormLabel>
+            <HabitChecklist
+              habits={habits}
+              selectedHabits={selectedHabits}
+              onToggleHabit={handleToggleHabit}
             />
+          </div>
 
-            <Separator />
-
-            <FormField
-              control={form.control}
-              name="thought"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Partagez vos pensées</FormLabel>
-                  <FormDescription>
-                    Partagez vos réflexions et vos pensées pour la journée
-                  </FormDescription>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Qu'avez-vous en tête aujourd'hui ?"
-                      className="min-h-32 resize-y"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div>
-              <FormLabel className="block mb-2">
-                Habitudes Quotidiennes
-              </FormLabel>
-              <HabitChecklist
-                habits={habits}
-                selectedHabits={selectedHabits}
-                onToggleHabit={handleToggleHabit}
-              />
-            </div>
-          </CardContent>
-
-          <CardFooter className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 pt-4">
             <Button
               variant="outline"
               type="button"
               onClick={() => form.reset()}
               disabled={isSubmitting}
+              className="text-sm"
             >
               Annuler
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} className="text-sm">
               {isSubmitting ? "Mise à jour..." : "Mettre à jour"}
             </Button>
-          </CardFooter>
+          </div>
         </form>
       </Form>
-    </Card>
+    </div>
   );
 }
 
@@ -350,22 +337,18 @@ export function JournalUpdateDialog({
           <IconEdit size={16} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px]">
+      <DialogContent className="max-w-md p-6 sm:max-w-lg md:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Modifier l&apos;entrée journalière</DialogTitle>
-          <DialogDescription>
-            Modifiez votre humeur, vos pensées et vos habitudes pour cette
-            entrée
-          </DialogDescription>
+          <DialogTitle className="text-center text-xl font-medium">
+            Modifier l&apos;entrée journalière
+          </DialogTitle>
         </DialogHeader>
-        <div className="mt-4">
-          <JournalEntryEditForm
-            className="border-none shadow-none"
-            entry={entry}
-            habits={habits}
-            onSuccess={handleSuccess}
-          />
-        </div>
+        <JournalEntryEditForm
+          className="mt-4"
+          entry={entry}
+          habits={habits}
+          onSuccess={handleSuccess}
+        />
       </DialogContent>
     </Dialog>
   );
