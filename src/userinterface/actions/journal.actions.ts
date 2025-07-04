@@ -3,6 +3,7 @@
 import { journalContainer } from "@/di/journal.ioc";
 import { JournalPresenter } from "@/infrastructure/presenters/journal.presenter";
 import { Journal } from "@/domain/models/journal.interface";
+import { revalidatePath } from "next/cache";
 
 // GET
 export async function getJournalsByUserIdAction(userId: string) {
@@ -70,6 +71,10 @@ export async function createJournalAction(
     }
 
     const presentedData = data ? JournalPresenter.toPresentation(data) : null;
+
+    // Revalidate the dashboard page to update the journal list
+    revalidatePath("/dashboard");
+
     return { data: presentedData, error: null };
   } catch (error) {
     console.error("Unexpected error in createJournalAction:", error);
@@ -98,6 +103,10 @@ export async function updateJournalAction(
     }
 
     const presentedData = data ? JournalPresenter.toPresentation(data) : null;
+
+    // Revalidate the dashboard page to update the journal list
+    revalidatePath("/dashboard");
+
     return { data: presentedData, error: null };
   } catch (error) {
     console.error("Unexpected error in updateJournalAction:", error);
@@ -117,6 +126,9 @@ export async function deleteJournalAction(id: string) {
       console.error("Error in deleteJournalAction:", error);
       return { success: false, error: error.message };
     }
+
+    // Revalidate the dashboard page to update the journal list
+    revalidatePath("/dashboard");
 
     return { success, error: null };
   } catch (error) {
