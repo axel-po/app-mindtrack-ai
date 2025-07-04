@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useJournalViewModel } from "../JournalViewModel";
+import { useDeleteJournalViewModel } from "./DeleteJournalViewModel";
 import { JournalPresentation } from "@/infrastructure/presenters/journal.presenter";
-import { toast } from "sonner";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { IconTrash } from "@tabler/icons-react";
@@ -29,27 +28,14 @@ export function JournalDeleteDialog({
   onSuccess,
 }: JournalDeleteDialogProps) {
   const [open, setOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const { deleteJournal } = useJournalViewModel();
+  const { deleteJournal, isLoading } = useDeleteJournalViewModel();
 
   const handleDelete = async () => {
-    setIsDeleting(true);
+    const success = await deleteJournal(journal.id);
 
-    try {
-      const success = await deleteJournal(journal.id);
-
-      if (success) {
-        toast.success("Entrée de journal supprimée avec succès");
-        setOpen(false);
-        onSuccess?.();
-      } else {
-        toast.error("Erreur lors de la suppression de l'entrée de journal");
-      }
-    } catch (error) {
-      toast.error("Une erreur est survenue");
-      console.error(error);
-    } finally {
-      setIsDeleting(false);
+    if (success) {
+      setOpen(false);
+      onSuccess?.();
     }
   };
 
@@ -80,16 +66,16 @@ export function JournalDeleteDialog({
           <Button
             variant="outline"
             onClick={() => setOpen(false)}
-            disabled={isDeleting}
+            disabled={isLoading}
           >
             Annuler
           </Button>
           <Button
             variant="destructive"
             onClick={handleDelete}
-            disabled={isDeleting}
+            disabled={isLoading}
           >
-            {isDeleting ? "Suppression..." : "Supprimer"}
+            {isLoading ? "Suppression..." : "Supprimer"}
           </Button>
         </DialogFooter>
       </DialogContent>

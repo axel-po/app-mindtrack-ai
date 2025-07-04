@@ -12,30 +12,16 @@ import {
   DialogTitle,
 } from "@/userinterface/components/ui/dialog";
 import { useState } from "react";
-import { useHabitViewModel } from "../HabitViewModel";
-import { toast } from "sonner";
+import { useDeleteHabitViewModel } from "./DeleteHabitViewModel";
 
 export function DeleteHabitDialog({ habit }: { habit: HabitPresentation }) {
   const [open, setOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const { deleteHabit } = useHabitViewModel();
+  const { deleteHabit, isLoading } = useDeleteHabitViewModel();
 
   async function handleDelete() {
-    try {
-      setIsDeleting(true);
-      const success = await deleteHabit(habit.id);
-
-      if (success) {
-        toast.success("Habitude supprimée avec succès");
-        setOpen(false);
-      } else {
-        toast.error("Erreur lors de la suppression de l'habitude");
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
-      toast.error("Une erreur est survenue");
-    } finally {
-      setIsDeleting(false);
+    const success = await deleteHabit(habit.id);
+    if (success) {
+      setOpen(false);
     }
   }
 
@@ -74,16 +60,16 @@ export function DeleteHabitDialog({ habit }: { habit: HabitPresentation }) {
             <Button
               variant="outline"
               onClick={() => setOpen(false)}
-              disabled={isDeleting}
+              disabled={isLoading}
             >
               Annuler
             </Button>
             <Button
               variant="destructive"
               onClick={handleDelete}
-              disabled={isDeleting}
+              disabled={isLoading}
             >
-              {isDeleting ? "Suppression..." : "Supprimer"}
+              {isLoading ? "Suppression..." : "Supprimer"}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useJournalViewModel } from "../JournalViewModel";
-import { useSession } from "@/lib/auth-client";
-import { toast } from "sonner";
+import {
+  useCreateJournalViewModel,
+  JournalFormData,
+} from "./CreateJournalViewModel";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
@@ -155,9 +156,7 @@ function JournalEntryForm({
   habits: HabitPresentation[];
   onSuccess?: () => void;
 }) {
-  const { createJournal } = useJournalViewModel();
-  const { data: session } = useSession();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createJournal, isLoading } = useCreateJournalViewModel();
   const [selectedHabits, setSelectedHabits] = useState<string[]>([]);
 
   const form = useForm<JournalEntryFormValues>({
@@ -170,34 +169,19 @@ function JournalEntryForm({
   });
 
   async function onSubmit(values: JournalEntryFormValues) {
-    if (!session?.user?.id) {
-      toast.error("Vous devez être connecté pour créer une entrée de journal");
-      return;
-    }
+    const journalData: JournalFormData = {
+      date: values.date,
+      mood: values.mood,
+      thought: values.thought,
+      habitIds: selectedHabits.length > 0 ? selectedHabits : undefined,
+    };
 
-    setIsSubmitting(true);
+    const result = await createJournal(journalData);
 
-    try {
-      const result = await createJournal({
-        date: values.date,
-        mood: values.mood,
-        thought: values.thought,
-        habitIds: selectedHabits.length > 0 ? selectedHabits : undefined,
-      });
-
-      if (result) {
-        toast.success("Entrée de journal créée avec succès");
-        form.reset();
-        setSelectedHabits([]);
-        onSuccess?.();
-      } else {
-        toast.error("Erreur lors de la création de l'entrée de journal");
-      }
-    } catch (error) {
-      toast.error("Une erreur est survenue");
-      console.error(error);
-    } finally {
-      setIsSubmitting(false);
+    if (result) {
+      form.reset();
+      setSelectedHabits([]);
+      onSuccess?.();
     }
   }
 
@@ -317,12 +301,12 @@ function JournalEntryForm({
               variant="outline"
               type="button"
               onClick={() => form.reset()}
-              disabled={isSubmitting}
+              disabled={isLoading}
             >
               Réinitialiser
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Enregistrement..." : "Enregistrer la réflexion"}
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Enregistrement..." : "Enregistrer la réflexion"}
             </Button>
           </CardFooter>
         </form>

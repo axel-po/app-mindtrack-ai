@@ -15,12 +15,11 @@ import {
 import { Input } from "@/userinterface/components/ui/input";
 import { Textarea } from "@/userinterface/components/ui/textarea";
 import { useState } from "react";
-import { EmojiPicker } from "./emoji-picker";
-import { useHabitViewModel } from "../HabitViewModel";
+import { EmojiPicker } from "../../@shared/emojis/emoji-picker";
+import { useCreateHabitViewModel, HabitFormData } from "./CreateHabitViewModel";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -46,7 +45,7 @@ export function HabitDialog({
   habit?: HabitPresentation;
 }) {
   const [open, setOpen] = useState(false);
-  const { createHabit, updateHabit } = useHabitViewModel();
+  const { createHabit, updateHabit, isLoading } = useCreateHabitViewModel();
 
   const form = useForm<HabitFormValues>({
     resolver: zodResolver(habitSchema),
@@ -58,38 +57,25 @@ export function HabitDialog({
   });
 
   async function onSubmit(values: HabitFormValues) {
-    try {
-      if (mode === "create") {
-        const result = await createHabit({
-          name: values.name,
-          description: values.description,
-          emoji: values.emoji,
-        });
+    const habitData: HabitFormData = {
+      name: values.name,
+      description: values.description,
+      emoji: values.emoji,
+    };
 
-        if (result) {
-          toast.success("Habitude créée avec succès");
-          setOpen(false);
-          form.reset();
-        } else {
-          toast.error("Erreur lors de la création de l'habitude");
-        }
-      } else if (habit) {
-        const result = await updateHabit(habit.id, {
-          name: values.name,
-          description: values.description,
-          emoji: values.emoji,
-        });
+    if (mode === "create") {
+      const result = await createHabit(habitData);
 
-        if (result) {
-          toast.success("Habitude mise à jour avec succès");
-          setOpen(false);
-        } else {
-          toast.error("Erreur lors de la mise à jour de l'habitude");
-        }
+      if (result) {
+        setOpen(false);
+        form.reset();
       }
-    } catch (error) {
-      toast.error("Une erreur est survenue");
-      console.error(error);
+    } else if (habit) {
+      const result = await updateHabit(habit.id, habitData);
+
+      if (result) {
+        setOpen(false);
+      }
     }
   }
 
@@ -176,8 +162,14 @@ export function HabitDialog({
               )}
             />
             <DialogFooter className="mt-4">
-              <Button type="submit">
-                {mode === "create" ? "Créer" : "Enregistrer"}
+              <Button type="submit" disabled={isLoading}>
+                {isLoading
+                  ? mode === "create"
+                    ? "Création..."
+                    : "Enregistrement..."
+                  : mode === "create"
+                  ? "Créer"
+                  : "Enregistrer"}
               </Button>
             </DialogFooter>
           </form>

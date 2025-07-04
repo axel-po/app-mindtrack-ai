@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/userinterface/components/ui/popover";
-import { EMOJIS } from "./emojis";
+import { EMOJIS } from "./emojis.config";
 
 interface EmojiPickerProps {
   defaultEmoji?: string;

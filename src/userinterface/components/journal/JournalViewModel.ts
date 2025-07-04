@@ -3,10 +3,7 @@ import { JournalPresentation } from "@/infrastructure/presenters/journal.present
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import {
   getJournalsByUserIdAction,
-  getJournalByIdAction,
-  createJournalAction,
   updateJournalAction,
-  deleteJournalAction,
 } from "@/userinterface/actions/journal.actions";
 import { getUserHabitsAction } from "@/userinterface/actions/habit.actions";
 import { useSession } from "@/lib/auth-client";
@@ -76,54 +73,6 @@ export function useJournalViewModel() {
     }
   };
 
-  const createJournal = async (journalData: {
-    date: string | Date;
-    mood: MoodType;
-    thought?: string;
-    habitIds?: string[];
-  }) => {
-    if (!userId) return null;
-
-    setState((prev) => ({ ...prev, isLoading: true, error: null }));
-
-    try {
-      const result = await createJournalAction({
-        userId,
-        date:
-          journalData.date instanceof Date
-            ? journalData.date.toISOString()
-            : journalData.date,
-        mood: journalData.mood,
-        thought: journalData.thought || null,
-        habitIds: journalData.habitIds,
-      });
-
-      if (result.data) {
-        setState((prev) => ({
-          ...prev,
-          journals: [result.data!, ...prev.journals],
-          isLoading: false,
-          error: result.error,
-        }));
-      } else {
-        setState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: result.error,
-        }));
-      }
-
-      return result.data;
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        isLoading: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-      }));
-      return null;
-    }
-  };
-
   const updateJournal = async (
     id: string,
     journalData: {
@@ -175,38 +124,6 @@ export function useJournalViewModel() {
     }
   };
 
-  const deleteJournal = async (id: string) => {
-    setState((prev) => ({ ...prev, isLoading: true, error: null }));
-
-    try {
-      const result = await deleteJournalAction(id);
-
-      if (result.success) {
-        setState((prev) => ({
-          ...prev,
-          journals: prev.journals.filter((journal) => journal.id !== id),
-          isLoading: false,
-          error: result.error,
-        }));
-      } else {
-        setState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: result.error,
-        }));
-      }
-
-      return result.success;
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        isLoading: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-      }));
-      return false;
-    }
-  };
-
   // Load data when user ID changes
   useEffect(() => {
     if (userId) {
@@ -219,46 +136,6 @@ export function useJournalViewModel() {
     ...state,
     loadJournals,
     loadHabits,
-    createJournal,
     updateJournal,
-    deleteJournal,
-  };
-}
-
-export function useJournalDetailViewModel(journalId: string | null) {
-  const [journal, setJournal] = useState<JournalPresentation | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const loadJournal = async (id: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const result = await getJournalByIdAction(id);
-
-      if (result.data) {
-        setJournal(result.data);
-      } else {
-        setError(result.error || "Journal not found");
-      }
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Unknown error");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (journalId) {
-      loadJournal(journalId);
-    }
-  }, [journalId]);
-
-  return {
-    journal,
-    isLoading,
-    error,
-    loadJournal,
   };
 }
