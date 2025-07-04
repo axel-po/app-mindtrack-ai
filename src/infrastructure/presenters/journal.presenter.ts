@@ -1,11 +1,11 @@
-import { Journal } from "@/domain/models/journal.interface";
+import { Journal, MoodType } from "@/domain/models/journal.interface";
 import { HabitPresentation, HabitPresenter } from "./habit.presenter";
 
 export interface JournalPresentation {
   id: string;
   userId: string;
   date: string;
-  mood: number;
+  mood: MoodType;
   moodEmoji: string;
   moodDescription: string;
   thought: string;
@@ -13,37 +13,24 @@ export interface JournalPresentation {
   habits: HabitPresentation[];
 }
 
+const moodConfig: Record<MoodType, { emoji: string; description: string }> = {
+  good: { emoji: "😊", description: "Good" },
+  neutral: { emoji: "😐", description: "Neutral" },
+  sad: { emoji: "😔", description: "Sad" },
+};
+
 export class JournalPresenter {
   static toPresentation(journal: Journal): JournalPresentation {
     const date = new Date(journal.date);
-
-    let moodEmoji = "😐";
-    let moodDescription = "Neutral";
-
-    const moodValue = Number(journal.mood);
-
-    if (moodValue >= 8) {
-      moodEmoji = "😄";
-      moodDescription = "Great";
-    } else if (moodValue >= 6) {
-      moodEmoji = "🙂";
-      moodDescription = "Good";
-    } else if (moodValue >= 4) {
-      moodEmoji = "😐";
-      moodDescription = "Neutral";
-    } else if (moodValue >= 2) {
-      moodEmoji = "🙁";
-      moodDescription = "Bad";
-    } else {
-      moodEmoji = "😞";
-      moodDescription = "Terrible";
-    }
+    const mood = journal.mood as MoodType;
+    const { emoji: moodEmoji, description: moodDescription } =
+      moodConfig[mood] || moodConfig.neutral;
 
     return {
       id: journal.id,
       userId: journal.userId,
       date: date.toISOString().split("T")[0],
-      mood: Number(journal.mood),
+      mood: mood,
       moodEmoji,
       moodDescription,
       thought: journal.thought || "",

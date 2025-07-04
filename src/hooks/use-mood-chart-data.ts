@@ -1,7 +1,6 @@
 import * as React from "react";
-import { JournalEntryWithCompletions } from "@/data/repositories/journal-entries-repository";
-
-type MoodType = "good" | "neutral" | "sad";
+import { MoodType } from "@/domain/models/journal.interface";
+import { Journal } from "@/domain/models/journal.interface";
 
 const moodConfig: Record<
   MoodType,
@@ -21,7 +20,7 @@ interface ChartDataPoint {
   percentage: number;
 }
 
-export function useMoodChartData(entries: JournalEntryWithCompletions[]) {
+export function useMoodChartData(entries: Journal[]) {
   const [timeRange, setTimeRange] = React.useState("30d");
 
   // Filter entries based on selected time range
@@ -53,7 +52,7 @@ export function useMoodChartData(entries: JournalEntryWithCompletions[]) {
   const chartData = React.useMemo(() => {
     // Count mood occurrences
     const moodCounts = filteredEntries.reduce((acc, entry) => {
-      const mood = entry.mood as MoodType;
+      const mood = entry.mood;
       acc[mood] = (acc[mood] || 0) + 1;
       return acc;
     }, {} as Record<MoodType, number>);

@@ -10,9 +10,7 @@ import {
 } from "@/userinterface/actions/journal.actions";
 import { getUserHabitsAction } from "@/userinterface/actions/habit.actions";
 import { useSession } from "@/lib/auth-client";
-
-// Type for mood from the database schema
-type MoodType = "good" | "neutral" | "sad";
+import { MoodType } from "@/domain/models/journal.interface";
 
 interface JournalViewModelState {
   journals: JournalPresentation[];
@@ -78,16 +76,9 @@ export function useJournalViewModel() {
     }
   };
 
-  // Helper function to convert numeric mood to enum value
-  const convertMoodToEnum = (moodValue: number): MoodType => {
-    if (moodValue >= 8) return "good";
-    if (moodValue >= 4) return "neutral";
-    return "sad";
-  };
-
   const createJournal = async (journalData: {
     date: string | Date;
-    mood: number;
+    mood: MoodType;
     thought?: string;
     habitIds?: string[];
   }) => {
@@ -102,7 +93,7 @@ export function useJournalViewModel() {
           journalData.date instanceof Date
             ? journalData.date.toISOString()
             : journalData.date,
-        mood: convertMoodToEnum(journalData.mood),
+        mood: journalData.mood,
         thought: journalData.thought || null,
         habitIds: journalData.habitIds,
       });
@@ -137,7 +128,7 @@ export function useJournalViewModel() {
     id: string,
     journalData: {
       date?: string | Date;
-      mood?: number;
+      mood?: MoodType;
       thought?: string;
       habitIds?: string[];
     }
@@ -145,17 +136,13 @@ export function useJournalViewModel() {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      // Convert Date object to string if needed and mood number to enum
+      // Convert Date object to string if needed
       const formattedData = {
         ...journalData,
         date:
           journalData.date instanceof Date
             ? journalData.date.toISOString()
             : journalData.date,
-        mood:
-          journalData.mood !== undefined
-            ? convertMoodToEnum(journalData.mood)
-            : undefined,
       };
 
       const result = await updateJournalAction(id, formattedData);

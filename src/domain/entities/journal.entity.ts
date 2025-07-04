@@ -1,18 +1,23 @@
 import { Habit } from "@/domain/models/habit.interface";
+import { MoodType } from "@/domain/models/journal.interface";
 
 export class JournalEntity {
   constructor(
     public readonly id: string,
     public readonly userId: string,
     public readonly date: Date,
-    public readonly mood: number,
+    public readonly mood: MoodType,
     public readonly thought: string | null,
     public readonly createdAt: Date,
     public readonly habits: Habit[] = []
   ) {}
 
   isValidJournal(): boolean {
-    return !!(this.userId && this.date && this.mood >= 1 && this.mood <= 10);
+    return !!(
+      this.userId &&
+      this.date &&
+      ["good", "neutral", "sad"].includes(this.mood)
+    );
   }
 
   getDisplayDate(): string {
@@ -20,19 +25,29 @@ export class JournalEntity {
   }
 
   getMoodEmoji(): string {
-    if (this.mood >= 8) return "😄";
-    if (this.mood >= 6) return "🙂";
-    if (this.mood >= 4) return "😐";
-    if (this.mood >= 2) return "🙁";
-    return "😞";
+    switch (this.mood) {
+      case "good":
+        return "😊";
+      case "neutral":
+        return "😐";
+      case "sad":
+        return "😔";
+      default:
+        return "😐"; // Default case
+    }
   }
 
   getMoodDescription(): string {
-    if (this.mood >= 8) return "Great";
-    if (this.mood >= 6) return "Good";
-    if (this.mood >= 4) return "Neutral";
-    if (this.mood >= 2) return "Bad";
-    return "Terrible";
+    switch (this.mood) {
+      case "good":
+        return "Good";
+      case "neutral":
+        return "Neutral";
+      case "sad":
+        return "Sad";
+      default:
+        return "Neutral"; // Default case
+    }
   }
 
   hasThought(): boolean {

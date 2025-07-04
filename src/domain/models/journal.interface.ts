@@ -1,5 +1,10 @@
-import { entries } from "@/infrastructure/database/schemas/entries.schema";
+import {
+  entries,
+  moodEnum,
+} from "@/infrastructure/database/schemas/entries.schema";
 import { Habit } from "@/domain/models/habit.interface";
+
+export type MoodType = (typeof moodEnum.enumValues)[number]; // "good" | "neutral" | "sad"
 
 // Use the inferred type from Drizzle schema
 export type Journal = typeof entries.$inferSelect & {

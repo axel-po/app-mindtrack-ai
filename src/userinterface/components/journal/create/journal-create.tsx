@@ -12,6 +12,7 @@ import { fr } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { IconCalendarPlus } from "@tabler/icons-react";
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
+import { MoodType } from "@/domain/models/journal.interface";
 
 import { Button } from "@/userinterface/components/ui/button";
 import {
@@ -51,7 +52,7 @@ import {
 // Schema for form validation
 const journalEntrySchema = z.object({
   date: z.date(),
-  mood: z.number().min(1).max(10),
+  mood: z.enum(["good", "neutral", "sad"] as const),
   thought: z.string().min(3, "Veuillez partager au moins quelques pensées"),
   habitIds: z.array(z.string()).optional(),
 });
@@ -63,13 +64,13 @@ function MoodSelector({
   value,
   onValueChange,
 }: {
-  value: number;
-  onValueChange: (value: number) => void;
+  value: MoodType;
+  onValueChange: (value: MoodType) => void;
 }) {
   const moods = [
-    { value: 2, emoji: "😢", label: "Triste" },
-    { value: 5, emoji: "😐", label: "Neutre" },
-    { value: 8, emoji: "😊", label: "Heureux" },
+    { value: "good" as const, emoji: "😊", label: "Heureux" },
+    { value: "neutral" as const, emoji: "😐", label: "Neutre" },
+    { value: "sad" as const, emoji: "😔", label: "Triste" },
   ];
 
   return (
@@ -163,7 +164,7 @@ function JournalEntryForm({
     resolver: zodResolver(journalEntrySchema),
     defaultValues: {
       date: new Date(),
-      mood: 5,
+      mood: "neutral",
       thought: "",
     },
   });
