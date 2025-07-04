@@ -1,14 +1,16 @@
 import {
   IconCamera,
   IconChartBar,
-  IconDashboard,
   IconFileAi,
   IconFileDescription,
   IconHelp,
-  IconListDetails,
   IconSettings,
-  IconUsers,
-  IconCirclePlusFilled,
+  IconHome,
+  IconRepeat,
+  IconBook,
+  IconChartPie,
+  IconUsersGroup,
+  IconNote,
 } from "@tabler/icons-react";
 
 export const sidebarConfig = {
@@ -21,27 +23,27 @@ export const sidebarConfig = {
     {
       title: "Tableau de bord",
       url: "/dashboard",
-      icon: IconCirclePlusFilled,
+      icon: IconHome,
     },
     {
       title: "Habitudes",
       url: "/dashboard/habits",
-      icon: IconDashboard,
+      icon: IconRepeat,
     },
     {
       title: "Journal",
       url: "/dashboard/journal",
-      icon: IconListDetails,
+      icon: IconBook,
     },
     {
       title: "Analyse",
       url: "/dashboard/analysis",
-      icon: IconChartBar,
+      icon: IconChartPie,
     },
     {
       title: "Communauté",
       url: "/dashboard/community",
-      icon: IconUsers,
+      icon: IconUsersGroup,
     },
   ],
   navClouds: [
@@ -106,7 +108,7 @@ export const sidebarConfig = {
     {
       name: "Notes personnelles",
       url: "/dashboard/documents/personal-notes",
-      icon: IconFileAi,
+      icon: IconNote,
     },
   ],
   navSecondary: [

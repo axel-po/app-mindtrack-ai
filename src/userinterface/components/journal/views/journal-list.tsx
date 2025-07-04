@@ -1,10 +1,13 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import JournalItem from "./journal-item";
-import JournalPagination from "./journal-pagination";
 import { JournalPresentation } from "@/infrastructure/presenters/journal.presenter";
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import { toast } from "sonner";
 import { useJournalViewModel } from "./journal.viewmodel";
+import { SearchIcon } from "lucide-react";
+import { Input } from "@/userinterface/components/ui/input";
 
 interface JournalListProps {
   initialJournals?: JournalPresentation[];
@@ -18,11 +21,10 @@ export default function JournalList({
   const { journals, habits, isLoading, error, updateJournal, loadJournals } =
     useJournalViewModel();
 
-  // Local state for pagination and updates
-  const [currentPage, setCurrentPage] = useState(1);
+  // Local state for updates and search
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
   const [localJournals, setLocalJournals] = useState<JournalPresentation[]>([]);
-  const entriesPerPage = 10;
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Use initialJournals and initialHabits if provided, otherwise use from ViewModel
   const displayHabits = initialHabits || habits;
@@ -32,11 +34,14 @@ export default function JournalList({
     setLocalJournals(initialJournals || journals);
   }, [initialJournals, journals]);
 
-  // Calculate pagination
-  const totalPages = Math.ceil(localJournals.length / entriesPerPage);
-  const startIndex = (currentPage - 1) * entriesPerPage;
-  const endIndex = startIndex + entriesPerPage;
-  const currentEntries = localJournals.slice(startIndex, endIndex);
+  // Filter journals based on search term
+  const filteredJournals = searchTerm
+    ? localJournals.filter(
+        (journal) =>
+          journal.thought.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          journal.date.includes(searchTerm)
+      )
+    : localJournals;
 
   // Handle errors
   useEffect(() => {
@@ -128,27 +133,44 @@ export default function JournalList({
     loadJournals();
   };
 
-  // Handle page change
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
   if (isLoading) {
-    return <div className="py-10 text-center">Chargement des données...</div>;
+    return (
+      <div className="py-20 text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+        <p className="mt-4 text-muted-foreground">Chargement des données...</p>
+      </div>
+    );
   }
 
   if (localJournals.length === 0) {
     return (
-      <div className="py-10 text-center">Aucune entrée de journal trouvée.</div>
+      <div className="py-20 text-center">
+        <p className="text-lg font-medium">Aucune entrée de journal trouvée.</p>
+        <p className="text-muted-foreground mt-2">
+          Commencez par créer votre première entrée de journal.
+        </p>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="overflow-x-auto">
+    <div className="space-y-6">
+      {/* Barre de recherche */}
+      <div className="relative max-w-md mx-auto sm:mx-0">
+        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Rechercher dans vos entrées..."
+          className="pl-9 bg-background"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto rounded-md border">
         <table className="w-full min-w-max border-collapse">
           <thead>
-            <tr className="bg-muted/20 border-b">
+            <tr className="bg-muted/30 border-b">
               <th className="text-left p-3 text-sm font-medium text-muted-foreground w-8"></th>
               <th className="text-left p-3 text-sm font-medium">
                 Entrée du journal
@@ -158,7 +180,10 @@ export default function JournalList({
               </th>
               {displayHabits.map((habit) => (
                 <th key={habit.id} className="p-3 text-center w-16">
-                  <span className="text-xs font-medium text-muted-foreground block whitespace-nowrap px-2">
+                  <span
+                    className="text-xs font-medium text-muted-foreground block whitespace-nowrap px-2 tooltip"
+                    title={habit.description}
+                  >
                     {habit.name}
                   </span>
                 </th>
@@ -171,7 +196,7 @@ export default function JournalList({
             </tr>
           </thead>
           <tbody>
-            {currentEntries.map((journal) => (
+            {filteredJournals.map((journal) => (
               <JournalItem
                 key={journal.id}
                 journal={journal}
@@ -186,15 +211,20 @@ export default function JournalList({
         </table>
       </div>
 
-      {/* Pagination */}
-      <JournalPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalItems={localJournals.length}
-        startIndex={startIndex}
-        endIndex={endIndex}
-        onPageChange={handlePageChange}
-      />
+      {filteredJournals.length === 0 && searchTerm && (
+        <div className="py-10 text-center">
+          <p className="text-muted-foreground">
+            Aucun résultat trouvé pour &quot;{searchTerm}&quot;
+          </p>
+        </div>
+      )}
+
+      <div className="flex items-center justify-between gap-4 py-2">
+        <div className="text-sm text-muted-foreground">
+          Affichage de{" "}
+          <span className="font-medium">{filteredJournals.length}</span> entrées
+        </div>
+      </div>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
 } from "@/userinterface/components/ui/sidebar";
 import Link from "next/link";
-import { IconInnerShadowTop } from "@tabler/icons-react";
+import { IconBrain } from "@tabler/icons-react";
 import { sidebarConfig } from "./config";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -27,7 +27,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Link href="/dashboard">
-                <IconInnerShadowTop className="!size-5" />
+                <IconBrain className="!size-5" />
                 <span className="text-base font-semibold">MindTrack AI</span>
               </Link>
             </SidebarMenuButton>
