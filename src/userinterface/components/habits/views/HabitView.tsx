@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useHabitViewModel } from "../HabitViewModel";
+import { useHabitViewModel } from "./habit.viewmodel";
 import { toast } from "sonner";
 import {
   Card,

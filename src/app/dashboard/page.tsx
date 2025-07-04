@@ -1,4 +1,4 @@
-import JournalView from "@/userinterface/components/journal/JournalView";
+import JournalView from "@/userinterface/components/journal/views/journal-view";
 import React from "react";
 
 export default function DashboardPage() {

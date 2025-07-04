@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useJournalViewModel } from "./JournalViewModel";
-import JournalList from "./views/journal-list";
+import { useJournalViewModel } from "./journal.viewmodel";
+import JournalList from "./journal-list";
 import { toast } from "sonner";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/userinterface/components/ui/card";
 import { Skeleton } from "@/userinterface/components/ui/skeleton";
-import { JournalCreateDialog } from "./create/journal-create";
+import { JournalCreateDialog } from "../create/journal-create";
 
 export default function JournalView() {
   const { journals, habits, isLoading, error, loadJournals, loadHabits } =

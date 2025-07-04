@@ -46,13 +46,11 @@ export function useCreateJournalViewModel() {
       });
 
       if (result.data) {
-        toast.success("Entrée de journal créée avec succès");
+        toast.success("Journal créé avec succès");
         setState({ isLoading: false, error: null });
         return result.data;
       } else {
-        toast.error(
-          result.error || "Erreur lors de la création de l'entrée de journal"
-        );
+        toast.error(result.error || "Erreur lors de la création du journal");
         setState({ isLoading: false, error: result.error });
         return null;
       }

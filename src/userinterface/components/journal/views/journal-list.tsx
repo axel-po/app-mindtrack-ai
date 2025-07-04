@@ -4,7 +4,7 @@ import JournalPagination from "./journal-pagination";
 import { JournalPresentation } from "@/infrastructure/presenters/journal.presenter";
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import { toast } from "sonner";
-import { useJournalViewModel } from "../JournalViewModel";
+import { useJournalViewModel } from "./journal.viewmodel";
 
 interface JournalListProps {
   initialJournals?: JournalPresentation[];

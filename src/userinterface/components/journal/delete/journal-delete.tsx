@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useDeleteJournalViewModel } from "./DeleteJournalViewModel";
+import { useDeleteJournalViewModel } from "./journal-delete.viewmodel";
 import { JournalPresentation } from "@/infrastructure/presenters/journal.presenter";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -28,6 +28,7 @@ export function JournalDeleteDialog({
   onSuccess,
 }: JournalDeleteDialogProps) {
   const [open, setOpen] = useState(false);
+
   const { deleteJournal, isLoading } = useDeleteJournalViewModel();
 
   const handleDelete = async () => {

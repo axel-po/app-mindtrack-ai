@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "@/userinterface/components/ui/dialog";
 import { useState } from "react";
-import { useDeleteHabitViewModel } from "./DeleteHabitViewModel";
+import { useDeleteHabitViewModel } from "./delete-habit-dialog.viewmodel";
 
 export function DeleteHabitDialog({ habit }: { habit: HabitPresentation }) {
   const [open, setOpen] = useState(false);

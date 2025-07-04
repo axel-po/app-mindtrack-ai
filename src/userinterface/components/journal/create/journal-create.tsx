@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   useCreateJournalViewModel,
   JournalFormData,
-} from "./CreateJournalViewModel";
+} from "./journal-create.viewmodel";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { CalendarIcon, X } from "lucide-react";
@@ -46,7 +46,7 @@ import { cn } from "@/lib/utils";
 const journalEntrySchema = z.object({
   date: z.date(),
   mood: z.enum(["good", "neutral", "sad"] as const),
-  thought: z.string().min(3, "Veuillez partager au moins quelques pensées"),
+  thought: z.string().min(1, "Veuillez partager au moins quelques pensées"),
   habitIds: z.array(z.string()).optional(),
 });
 
