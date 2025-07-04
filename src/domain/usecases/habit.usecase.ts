@@ -84,22 +84,4 @@ export class HabitUseCase {
       return { success: false, isCompleted: false, error: error as Error };
     }
   }
-
-  async getHabitCompletionStatus(
-    habitId: string,
-    userId: string,
-    date: string = new Date().toISOString().split("T")[0]
-  ): Promise<{ isCompleted: boolean; error?: Error }> {
-    try {
-      const result = await this.repository.getHabitCompletionStatus(
-        habitId,
-        userId,
-        date
-      );
-      return result;
-    } catch (error) {
-      console.error("Error in getHabitCompletionStatus usecase:", error);
-      return { isCompleted: false, error: error as Error };
-    }
-  }
 }

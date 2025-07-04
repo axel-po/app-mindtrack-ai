@@ -6,7 +6,6 @@ import {
   updateHabitAction,
   deleteHabitAction,
   toggleHabitCompletionAction,
-  getHabitCompletionStatusAction,
 } from "@/userinterface/actions/habit.actions";
 import { useSession } from "@/lib/auth-client";
 
@@ -37,18 +36,11 @@ export function useHabitViewModel() {
       const result = await getUserHabitsAction(userId);
 
       if (result.data) {
-        // Load completion status for each habit
+        // Initialize all habits as not completed
         const completionStatus: Record<string, boolean> = {};
-        const today = new Date().toISOString().split("T")[0];
-
-        for (const habit of result.data) {
-          const statusResult = await getHabitCompletionStatusAction(
-            habit.id,
-            userId,
-            today
-          );
-          completionStatus[habit.id] = statusResult.isCompleted;
-        }
+        result.data.forEach((habit) => {
+          completionStatus[habit.id] = false;
+        });
 
         setState((prev) => ({
           ...prev,
@@ -94,6 +86,10 @@ export function useHabitViewModel() {
         setState((prev) => ({
           ...prev,
           habits: [...prev.habits, result.data!],
+          completionStatus: {
+            ...prev.completionStatus,
+            [result.data!.id]: false,
+          },
           isLoading: false,
           error: result.error,
         }));

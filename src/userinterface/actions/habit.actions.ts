@@ -123,31 +123,3 @@ export async function toggleHabitCompletionAction(
     };
   }
 }
-
-export async function getHabitCompletionStatusAction(
-  habitId: string,
-  userId: string,
-  date: string = new Date().toISOString().split("T")[0]
-) {
-  try {
-    const { isCompleted, error } =
-      await habitContainer.habitUseCase.getHabitCompletionStatus(
-        habitId,
-        userId,
-        date
-      );
-
-    if (error) {
-      console.error("Error in getHabitCompletionStatusAction:", error);
-      return { isCompleted: false, error: error.message };
-    }
-
-    return { isCompleted, error: null };
-  } catch (error) {
-    console.error("Unexpected error in getHabitCompletionStatusAction:", error);
-    return {
-      isCompleted: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-    };
-  }
-}
