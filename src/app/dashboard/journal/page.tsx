@@ -71,7 +71,7 @@ export default async function JournalPage() {
             <JournalList
               initialJournals={journals}
               initialHabits={habits}
-              entriesPerPage={20}
+              entriesPerPage={30}
             />
           </Suspense>
         </div>

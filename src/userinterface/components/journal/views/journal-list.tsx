@@ -8,15 +8,26 @@ import { toast } from "sonner";
 import { useJournalViewModel } from "./journal.viewmodel";
 import { SearchIcon } from "lucide-react";
 import { Input } from "@/userinterface/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/userinterface/components/ui/pagination";
 
 interface JournalListProps {
   initialJournals?: JournalPresentation[];
   initialHabits?: HabitPresentation[];
+  entriesPerPage?: number;
 }
 
 export default function JournalList({
   initialJournals,
   initialHabits,
+  entriesPerPage = 10,
 }: JournalListProps) {
   const { journals, habits, isLoading, error, updateJournal, loadJournals } =
     useJournalViewModel();
@@ -25,6 +36,9 @@ export default function JournalList({
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
   const [localJournals, setLocalJournals] = useState<JournalPresentation[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Use initialJournals and initialHabits if provided, otherwise use from ViewModel
   const displayHabits = initialHabits || habits;
@@ -42,6 +56,25 @@ export default function JournalList({
           journal.date.includes(searchTerm)
       )
     : localJournals;
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredJournals.length / entriesPerPage);
+  const paginatedJournals = filteredJournals.slice(
+    (currentPage - 1) * entriesPerPage,
+    currentPage * entriesPerPage
+  );
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Scroll to top of the list
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Reset to page 1 when search term changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   // Handle errors
   useEffect(() => {
@@ -153,6 +186,91 @@ export default function JournalList({
     );
   }
 
+  // Generate pagination items
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxVisiblePages = 5;
+
+    // Always show first page
+    items.push(
+      <PaginationItem key="page-1">
+        <PaginationLink
+          href="#"
+          isActive={currentPage === 1}
+          onClick={(e) => {
+            e.preventDefault();
+            handlePageChange(1);
+          }}
+        >
+          1
+        </PaginationLink>
+      </PaginationItem>
+    );
+
+    // Calculate range of visible pages
+    const startPage = Math.max(
+      2,
+      currentPage - Math.floor(maxVisiblePages / 2)
+    );
+    const endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 3);
+
+    // Adjust if we're near the beginning
+    if (startPage > 2) {
+      items.push(
+        <PaginationItem key="ellipsis-1">
+          <PaginationEllipsis />
+        </PaginationItem>
+      );
+    }
+
+    // Add middle pages
+    for (let i = startPage; i <= endPage; i++) {
+      items.push(
+        <PaginationItem key={`page-${i}`}>
+          <PaginationLink
+            href="#"
+            isActive={currentPage === i}
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(i);
+            }}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    // Add ellipsis if needed
+    if (endPage < totalPages - 1) {
+      items.push(
+        <PaginationItem key="ellipsis-2">
+          <PaginationEllipsis />
+        </PaginationItem>
+      );
+    }
+
+    // Always show last page if there's more than one page
+    if (totalPages > 1) {
+      items.push(
+        <PaginationItem key={`page-${totalPages}`}>
+          <PaginationLink
+            href="#"
+            isActive={currentPage === totalPages}
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(totalPages);
+            }}
+          >
+            {totalPages}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    return items;
+  };
+
   return (
     <div className="space-y-6">
       {/* Barre de recherche */}
@@ -196,7 +314,7 @@ export default function JournalList({
             </tr>
           </thead>
           <tbody>
-            {filteredJournals.map((journal) => (
+            {paginatedJournals.map((journal) => (
               <JournalItem
                 key={journal.id}
                 journal={journal}
@@ -219,11 +337,57 @@ export default function JournalList({
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-4 py-2">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
         <div className="text-sm text-muted-foreground">
           Affichage de{" "}
-          <span className="font-medium">{filteredJournals.length}</span> entrées
+          <span className="font-medium">
+            {Math.min(
+              (currentPage - 1) * entriesPerPage + 1,
+              filteredJournals.length
+            )}
+            -{Math.min(currentPage * entriesPerPage, filteredJournals.length)}
+          </span>{" "}
+          sur <span className="font-medium">{filteredJournals.length}</span>{" "}
+          entrées
         </div>
+
+        {/* Pagination component */}
+        {totalPages > 1 && (
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) handlePageChange(currentPage - 1);
+                  }}
+                  className={
+                    currentPage === 1 ? "pointer-events-none opacity-50" : ""
+                  }
+                />
+              </PaginationItem>
+
+              {renderPaginationItems()}
+
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages)
+                      handlePageChange(currentPage + 1);
+                  }}
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
       </div>
     </div>
   );
