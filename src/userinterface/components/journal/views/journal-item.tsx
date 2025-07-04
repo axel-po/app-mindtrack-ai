@@ -2,7 +2,7 @@ import React from "react";
 import { JournalPresentation } from "@/infrastructure/presenters/journal.presenter";
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import { JournalUpdateDialog } from "../update/journal-update";
-import { JournalDeleteDialog } from "../delete/journal-delete";
+import { EnhancedJournalDeleteDialog } from "../delete/enhanced-journal-delete";
 
 // Type pour les propriétés du composant
 interface JournalItemProps {
@@ -119,7 +119,7 @@ export default function JournalItem({
             habits={habits}
             onSuccess={handleEditSuccess}
           />
-          <JournalDeleteDialog
+          <EnhancedJournalDeleteDialog
             journal={journal}
             onSuccess={handleDeleteSuccess}
           />

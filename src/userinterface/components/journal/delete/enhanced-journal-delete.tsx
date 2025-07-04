@@ -25,15 +25,15 @@ import {
 import { getUserStreakAction } from "@/userinterface/actions/streak.actions";
 import { useSession } from "@/lib/auth-client";
 
-interface JournalDeleteDialogProps {
+interface EnhancedJournalDeleteDialogProps {
   journal: JournalPresentation;
   onSuccess?: () => void;
 }
 
-export function JournalDeleteDialog({
+export function EnhancedJournalDeleteDialog({
   journal,
   onSuccess,
-}: JournalDeleteDialogProps) {
+}: EnhancedJournalDeleteDialogProps) {
   const [open, setOpen] = useState(false);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [isLoadingStreak, setIsLoadingStreak] = useState(false);
@@ -43,14 +43,12 @@ export function JournalDeleteDialog({
 
   const { deleteJournal, isLoading } = useDeleteJournalViewModel();
 
-  // Vérifier si la suppression de cette entrée affectera le streak
   useEffect(() => {
     if (open && userId) {
       setIsLoadingStreak(true);
       getUserStreakAction(userId).then((result) => {
         setCurrentStreak(result.currentStreak);
 
-        // Vérifier si l'entrée à supprimer fait partie du streak actuel
         const entryDate = new Date(journal.date);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -61,7 +59,6 @@ export function JournalDeleteDialog({
         const entryDateNormalized = new Date(entryDate);
         entryDateNormalized.setHours(0, 0, 0, 0);
 
-        // Si l'entrée est d'aujourd'hui ou dans les X derniers jours (où X est le streak actuel)
         const isPartOfStreak =
           entryDateNormalized >= yesterday ||
           (result.currentStreak > 0 &&
@@ -78,8 +75,14 @@ export function JournalDeleteDialog({
     const success = await deleteJournal(journal.id);
 
     if (success) {
+      console.log("EnhancedJournalDeleteDialog: Delete successful");
       setOpen(false);
-      onSuccess?.();
+      if (onSuccess) {
+        console.log("EnhancedJournalDeleteDialog: Calling onSuccess callback");
+        onSuccess();
+      }
+    } else {
+      console.error("EnhancedJournalDeleteDialog: Delete failed");
     }
   };
 

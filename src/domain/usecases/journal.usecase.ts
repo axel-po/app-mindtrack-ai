@@ -77,6 +77,7 @@ export class JournalUseCase {
   ): Promise<{ success: boolean; error?: Error }> {
     try {
       const result = await this.repository.deleteJournal(id);
+
       return result;
     } catch (error) {
       console.error("Error in deleteJournal usecase:", error);

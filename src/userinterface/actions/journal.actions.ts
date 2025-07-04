@@ -118,9 +118,12 @@ export async function updateJournalAction(
 }
 
 export async function deleteJournalAction(id: string) {
+  console.log("deleteJournalAction called with ID:", id);
   try {
     const { success, error } =
       await journalContainer.journalUseCase.deleteJournal(id);
+
+    console.log("deleteJournal useCase result:", { success, error });
 
     if (error) {
       console.error("Error in deleteJournalAction:", error);
@@ -129,6 +132,7 @@ export async function deleteJournalAction(id: string) {
 
     // Revalidate the dashboard page to update the journal list
     revalidatePath("/dashboard");
+    console.log("Dashboard path revalidated after deletion");
 
     return { success, error: null };
   } catch (error) {

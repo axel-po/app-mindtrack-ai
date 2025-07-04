@@ -14,16 +14,19 @@ export function useDeleteJournalViewModel() {
   });
 
   const deleteJournal = async (id: string) => {
+    console.log("Deleting journal with ID:", id);
     setState({ isLoading: true, error: null });
 
     try {
       const result = await deleteJournalAction(id);
+      console.log("Delete journal result:", result);
 
       if (result.success) {
         toast.success("Entrée de journal supprimée avec succès");
         setState({ isLoading: false, error: null });
         return true;
       } else {
+        console.error("Error deleting journal:", result.error);
         toast.error(
           result.error || "Erreur lors de la suppression de l'entrée de journal"
         );
@@ -31,6 +34,7 @@ export function useDeleteJournalViewModel() {
         return false;
       }
     } catch (error) {
+      console.error("Exception when deleting journal:", error);
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       toast.error("Une erreur est survenue");

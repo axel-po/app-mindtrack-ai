@@ -123,6 +123,7 @@ export default function JournalList({
 
   // Handle delete journal - called after successful delete via dialog
   const handleDeleteJournal = () => {
+    console.log("handleDeleteJournal called, reloading journals");
     // Rafraîchir la liste après suppression
     loadJournals();
   };

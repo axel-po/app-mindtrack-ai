@@ -307,10 +307,15 @@ export class JournalRepositoryImpl implements JournalRepository {
     id: string
   ): Promise<{ success: boolean; error?: Error }> {
     try {
+      console.log("JournalRepositoryImpl.deleteJournal called with ID:", id);
       // Start a transaction
       return await db.transaction(async (tx) => {
         // Delete habit relationships first (foreign key constraint)
-        await tx.delete(entryHabits).where(eq(entryHabits.entryId, id));
+        const deletedRelations = await tx
+          .delete(entryHabits)
+          .where(eq(entryHabits.entryId, id))
+          .returning();
+        console.log("Deleted habit relations:", deletedRelations.length);
 
         // Delete the entry
         const result = await tx
@@ -318,6 +323,7 @@ export class JournalRepositoryImpl implements JournalRepository {
           .where(eq(entries.id, id))
           .returning({ id: entries.id });
 
+        console.log("Deleted journal entries:", result);
         return { success: result.length > 0 };
       });
     } catch (error) {
