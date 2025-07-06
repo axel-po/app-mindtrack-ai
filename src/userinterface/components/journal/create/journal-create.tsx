@@ -72,6 +72,7 @@ function MoodSelector({
         <button
           key={mood.value}
           type="button"
+          data-testid={`mood-${mood.value}`}
           onClick={() => onValueChange(mood.value)}
           className={cn(
             "flex flex-col items-center rounded-lg p-3 transition-all",
@@ -257,10 +258,12 @@ function JournalEntryForm({
                   Comment vous sentez-vous aujourd&apos;hui ?
                 </FormLabel>
                 <FormControl>
-                  <MoodSelector
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  />
+                  <div data-testid="mood-selector">
+                    <MoodSelector
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -281,6 +284,7 @@ function JournalEntryForm({
                   <Textarea
                     placeholder="Qu'avez-vous en tête aujourd'hui ?"
                     className="min-h-28 resize-none focus-visible:ring-primary"
+                    data-testid="journal-thought-input"
                     {...field}
                   />
                 </FormControl>
@@ -307,7 +311,11 @@ function JournalEntryForm({
               Annuler
             </Button>
           </DialogClose>
-          <Button type="submit" disabled={isLoading}>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            data-testid="save-journal-button"
+          >
             {isLoading ? "Enregistrement..." : "Enregistrer la réflexion"}
           </Button>
         </div>
@@ -330,7 +338,10 @@ export function JournalCreateDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="flex items-center gap-2">
+        <Button
+          className="flex items-center gap-2"
+          data-testid="new-journal-entry-button"
+        >
           <IconCalendarPlus size={18} />
           <span>Nouvelle entrée</span>
         </Button>

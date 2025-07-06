@@ -111,6 +111,7 @@ export function LoginForm({
                           id="email"
                           type="email"
                           placeholder="m@example.com"
+                          data-testid="email-input"
                           {...field}
                         />
                       </FormControl>
@@ -133,13 +134,23 @@ export function LoginForm({
                         </a>
                       </div>
                       <FormControl>
-                        <Input id="password" type="password" {...field} />
+                        <Input
+                          id="password"
+                          type="password"
+                          data-testid="password-input"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full" disabled={isPending}>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isPending}
+                  data-testid="login-button"
+                >
                   {isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
