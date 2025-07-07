@@ -1,4 +1,5 @@
 import { Toaster } from "@/userinterface/components/ui/sonner";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/userinterface/components/@shared/theme/theme-provider";
 
@@ -15,14 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <head>
-        <script
+      <body>
+        <Script
           src="https://app.rybbit.io/api/script.js"
           data-site-id="1523"
-          defer
-        ></script>
-      </head>
-      <body>
+          strategy="afterInteractive"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
