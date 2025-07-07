@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "@/lib/auth-client";
 import { getUserStreakAction } from "@/userinterface/actions/streak.actions";
 import { toast } from "sonner";
@@ -21,7 +21,7 @@ export function useStatisticsCardViewModel() {
     error: null,
   });
 
-  const loadStreakData = async () => {
+  const loadStreakData = useCallback(async () => {
     if (!userId) return;
 
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
@@ -54,14 +54,14 @@ export function useStatisticsCardViewModel() {
         }`
       );
     }
-  };
+  }, [userId]);
 
   // Load data when user ID changes
   useEffect(() => {
     if (userId) {
       loadStreakData();
     }
-  }, [userId]);
+  }, [userId, loadStreakData]);
 
   return {
     ...state,

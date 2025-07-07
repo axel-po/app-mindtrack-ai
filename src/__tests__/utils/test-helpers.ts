@@ -21,7 +21,13 @@ export const createMockJournal = (
   mood: "good" | "neutral" | "sad" = "good",
   thought: string | null = "Test journal thought",
   createdAt: Date = new Date(),
-  habits: any[] = []
+  habits: {
+    id: string;
+    name: string;
+    userId: string;
+    description: string | null;
+    emoji: string | null;
+  }[] = []
 ): JournalEntity => {
   return new JournalEntity(id, userId, date, mood, thought, createdAt, habits);
 };
@@ -78,7 +84,10 @@ export const mockSession = {
 };
 
 // React Testing Library utilities
-export const renderWithProviders = (ui: ReactElement, options?: any) => {
+export const renderWithProviders = (
+  ui: ReactElement,
+  options?: Record<string, unknown>
+) => {
   const AllTheProviders = ({ children }: { children: ReactNode }) => {
     return children;
   };

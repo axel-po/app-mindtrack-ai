@@ -22,7 +22,7 @@ export default function JournalView() {
   useEffect(() => {
     loadJournals();
     loadHabits();
-  }, []);
+  }, [loadJournals, loadHabits]);
 
   // Handle errors
   useEffect(() => {

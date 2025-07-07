@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import db from "../client";
-import { habits } from "../../../data/models/habits-model";
-import { entries } from "../../../data/models/entries-model";
-import { entryHabits } from "../../../data/models/entryHabits-model";
+import { habits } from "../schemas/habits.schema";
+import { entries } from "../schemas/entries.schema";
+import { entryHabits } from "../schemas/entryHabits.schema";
 import initDotEnv from "./env";
 
 initDotEnv();

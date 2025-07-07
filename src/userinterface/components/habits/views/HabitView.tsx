@@ -29,7 +29,7 @@ export default function HabitView() {
   // Load data on component mount
   useEffect(() => {
     loadHabits();
-  }, []);
+  }, [loadHabits]);
 
   // Handle errors
   useEffect(() => {

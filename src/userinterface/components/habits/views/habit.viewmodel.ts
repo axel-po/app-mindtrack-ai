@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import {
   getUserHabitsAction,
@@ -27,7 +27,7 @@ export function useHabitViewModel() {
     completionStatus: {},
   });
 
-  const loadHabits = async () => {
+  const loadHabits = useCallback(async () => {
     if (!userId) return;
 
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
@@ -63,7 +63,7 @@ export function useHabitViewModel() {
         error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
-  };
+  }, [userId]);
 
   const createHabit = async (habitData: {
     name: string;
@@ -218,7 +218,7 @@ export function useHabitViewModel() {
     if (userId) {
       loadHabits();
     }
-  }, [userId]);
+  }, [userId, loadHabits]);
 
   return {
     ...state,

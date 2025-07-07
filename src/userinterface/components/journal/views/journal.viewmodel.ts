@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { JournalPresentation } from "@/infrastructure/presenters/journal.presenter";
 import { HabitPresentation } from "@/infrastructure/presenters/habit.presenter";
 import {
@@ -27,7 +27,7 @@ export function useJournalViewModel() {
     error: null,
   });
 
-  const loadJournals = async () => {
+  const loadJournals = useCallback(async () => {
     if (!userId) return;
 
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
@@ -48,9 +48,9 @@ export function useJournalViewModel() {
         error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
-  };
+  }, [userId]);
 
-  const loadHabits = async () => {
+  const loadHabits = useCallback(async () => {
     if (!userId) return;
 
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
@@ -71,7 +71,7 @@ export function useJournalViewModel() {
         error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
-  };
+  }, [userId]);
 
   const updateJournal = async (
     id: string,
@@ -130,7 +130,7 @@ export function useJournalViewModel() {
       loadJournals();
       loadHabits();
     }
-  }, [userId]);
+  }, [userId, loadJournals, loadHabits]);
 
   return {
     ...state,
