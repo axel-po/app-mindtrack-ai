@@ -7,13 +7,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+} from "@/userinterface/components/ui/card";
+import { Input } from "@/userinterface/components/ui/input";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/userinterface/components/ui/button";
 import {
   Form,
   FormControl,
@@ -21,7 +21,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/userinterface/components/ui/form";
 import { signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

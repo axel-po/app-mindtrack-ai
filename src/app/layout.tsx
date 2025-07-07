@@ -1,6 +1,6 @@
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/userinterface/components/ui/sonner";
 import "./globals.css";
-import { ThemeProvider } from "@/components/@shared/theme/theme-provider";
+import { ThemeProvider } from "@/userinterface/components/@shared/theme/theme-provider";
 
 export const metadata = {
   title: "MindTrack AI - Suivez vos habitudes et améliorez votre quotidien",

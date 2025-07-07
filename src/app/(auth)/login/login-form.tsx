@@ -1,15 +1,15 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/userinterface/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+} from "@/userinterface/components/ui/card";
+import { Input } from "@/userinterface/components/ui/input";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +21,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/userinterface/components/ui/form";
 import { signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -111,6 +111,7 @@ export function LoginForm({
                           id="email"
                           type="email"
                           placeholder="m@example.com"
+                          data-testid="email-input"
                           {...field}
                         />
                       </FormControl>
@@ -133,13 +134,23 @@ export function LoginForm({
                         </a>
                       </div>
                       <FormControl>
-                        <Input id="password" type="password" {...field} />
+                        <Input
+                          id="password"
+                          type="password"
+                          data-testid="password-input"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full" disabled={isPending}>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isPending}
+                  data-testid="login-button"
+                >
                   {isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />

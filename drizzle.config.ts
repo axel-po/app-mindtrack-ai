@@ -1,10 +1,10 @@
 import { defineConfig } from "drizzle-kit";
-import initDotEnv from "./src/data/db/scripts/env";
+import initDotEnv from "./src/infrastructure/database/scripts/env";
 
 initDotEnv();
 
 export default defineConfig({
-  schema: "./src/data/models/*",
+  schema: "./src/infrastructure/database/schemas/*",
   out: "./drizzle/migrations",
   dialect: "postgresql",
   dbCredentials: {
