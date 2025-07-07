@@ -15,7 +15,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <head />
+      <head>
+        <script
+          src="https://app.rybbit.io/api/script.js"
+          data-site-id="1523"
+          defer
+        ></script>
+      </head>
       <body>
         <ThemeProvider
           attribute="class"
