@@ -4,15 +4,7 @@ import Link from "next/link";
 import { getUser } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import { Header } from "@/userinterface/components/@shared/nav/header";
-import {
-  BrainCircuit,
-  LineChart,
-  Sparkles,
-  Zap,
-  Users,
-  Star,
-  Quote,
-} from "lucide-react";
+import { BrainCircuit, LineChart, Sparkles, Zap, Users } from "lucide-react";
 
 export default async function HomePage() {
   const user = await getUser();
@@ -27,7 +19,7 @@ export default async function HomePage() {
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-background/95">
         <main className="flex-1 flex flex-col pt-16">
           {/* Hero Section */}
-          <section className="py-24 md:py-32 px-6 md:px-12 max-w-7xl mx-auto w-full relative overflow-hidden">
+          <section className="py-24 md:py-32 px-6 md:px-12 mx-auto w-full relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl" />
             <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
@@ -63,14 +55,6 @@ export default async function HomePage() {
                   <Button className="rounded-full px-8 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border-none shadow-lg shadow-indigo-500/20 transition-all hover:shadow-indigo-500/30 hover:scale-[1.02]">
                     Commencer gratuitement
                     <Zap className="ml-2 size-4" />
-                  </Button>
-                </Link>
-                <Link href="/features">
-                  <Button
-                    variant="outline"
-                    className="rounded-full px-8 py-6 border-indigo-500/20 hover:bg-white/5 transition-colors"
-                  >
-                    Découvrir les fonctionnalités
                   </Button>
                 </Link>
               </div>
@@ -222,167 +206,20 @@ export default async function HomePage() {
             </div>
           </section>
 
-          {/* Testimonials Section */}
-          <section className="py-24 px-6 md:px-12 w-full bg-gradient-to-b from-background/95 to-background relative overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl" />
-
-            <div className="max-w-7xl mx-auto relative z-10">
-              <div className="text-center mb-16">
-                <div className="inline-block mb-3">
-                  <span className="bg-gradient-to-r from-amber-500 to-amber-600 bg-clip-text text-transparent text-sm font-medium px-4 py-1 rounded-full border border-amber-500/20">
-                    TÉMOIGNAGES
-                  </span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Ce que disent nos{" "}
-                  <span className="bg-gradient-to-r from-amber-500 to-amber-600 bg-clip-text text-transparent">
-                    utilisateurs
-                  </span>
-                </h2>
-                <p className="text-foreground/70 max-w-2xl mx-auto">
-                  Découvrez comment MindTrack AI a transformé la vie quotidienne
-                  de milliers d&apos;utilisateurs à travers le monde.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Testimonial 1 */}
-                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition-all hover:shadow-xl hover:shadow-amber-500/5 relative">
-                  <Quote className="absolute top-6 right-6 size-10 text-amber-500/10" />
-                  <div className="flex items-center mb-6">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="size-4 text-amber-500 fill-amber-500"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-foreground/80 mb-6 italic">
-                    &ldquo;Depuis que j&apos;utilise MindTrack AI, j&apos;ai
-                    réussi à établir une routine matinale solide.
-                    L&apos;application m&apos;a aidé à rester motivé et à
-                    visualiser mes progrès jour après jour.&rdquo;
-                  </p>
-                  <div className="flex items-center">
-                    <div className="size-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold">
-                      M
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-medium">Marie L.</p>
-                      <p className="text-sm text-foreground/60">
-                        Utilisatrice depuis 8 mois
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Testimonial 2 */}
-                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition-all hover:shadow-xl hover:shadow-amber-500/5 relative md:translate-y-4">
-                  <Quote className="absolute top-6 right-6 size-10 text-amber-500/10" />
-                  <div className="flex items-center mb-6">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="size-4 text-amber-500 fill-amber-500"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-foreground/80 mb-6 italic">
-                    &ldquo;Les graphiques de suivi d&apos;humeur ont été
-                    révélateurs pour moi. J&apos;ai pu identifier des schémas
-                    dans mon bien-être mental et ajuster mes habitudes en
-                    conséquence. Un outil incroyable !&rdquo;
-                  </p>
-                  <div className="flex items-center">
-                    <div className="size-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold">
-                      T
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-medium">Thomas R.</p>
-                      <p className="text-sm text-foreground/60">
-                        Utilisateur depuis 1 an
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Testimonial 3 */}
-                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition-all hover:shadow-xl hover:shadow-amber-500/5 relative">
-                  <Quote className="absolute top-6 right-6 size-10 text-amber-500/10" />
-                  <div className="flex items-center mb-6">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="size-4 text-amber-500 fill-amber-500"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-foreground/80 mb-6 italic">
-                    &ldquo;La communauté MindTrack est incroyablement motivante.
-                    Partager mes objectifs avec d&apos;autres utilisateurs
-                    m&apos;a aidé à rester responsable et à célébrer mes petites
-                    victoires quotidiennes.&rdquo;
-                  </p>
-                  <div className="flex items-center">
-                    <div className="size-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold">
-                      S
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-medium">Sophie D.</p>
-                      <p className="text-sm text-foreground/60">
-                        Utilisatrice depuis 6 mois
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-16 text-center">
-                <div className="inline-flex items-center bg-white/5 backdrop-blur-sm rounded-full px-6 py-3 border border-amber-500/20">
-                  <span className="text-foreground/70 mr-2">Note moyenne:</span>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="size-4 text-amber-500 fill-amber-500"
-                      />
-                    ))}
-                  </div>
-                  <span className="ml-2 font-semibold">4.9/5</span>
-                  <span className="text-foreground/60 ml-2 text-sm">
-                    (basée sur 2,384 avis)
-                  </span>
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* Pricing Section */}
           <section className="py-24 px-6 md:px-12 w-full relative overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="absolute top-40 left-1/4 w-96 h-96 bg-indigo-600/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-1/3 w-80 h-80 bg-purple-600/5 rounded-full blur-3xl" />
+            {/* Background decorative elements - supprimés */}
 
             <div className="max-w-7xl mx-auto relative z-10">
               <div className="text-center mb-16">
                 <div className="inline-block mb-3">
-                  <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent text-sm font-medium px-4 py-1 rounded-full border border-indigo-500/20">
+                  <span className="text-indigo-600 text-sm font-medium px-4 py-1 rounded-full border border-indigo-500/20">
                     TARIFS TRANSPARENTS
                   </span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                <h2 className="text-3xl md:text-5xl font-bold mb-4">
                   Choisissez le forfait qui vous{" "}
-                  <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                    correspond
-                  </span>
+                  <span className="text-indigo-600">correspond</span>
                 </h2>
                 <p className="text-foreground/70 max-w-2xl mx-auto">
                   Des options flexibles pour tous les besoins. Commencez
@@ -390,25 +227,27 @@ export default async function HomePage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="flex flex-col md:flex-row gap-8 justify-center relative">
                 {/* Free Plan */}
-                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-xl border border-indigo-500/10 hover:border-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/5 flex flex-col h-full">
-                  <div className="mb-6">
-                    <h3 className="text-xl font-semibold mb-2">Gratuit</h3>
-                    <p className="text-foreground/70 text-sm">
-                      Parfait pour débuter
-                    </p>
+                <div className="group bg-background p-8 rounded-2xl border border-indigo-500/10 hover:border-indigo-500/30 transition-all hover:shadow-xl flex flex-col w-full md:w-80 relative overflow-hidden">
+                  <h3 className="text-xl font-bold mb-1 relative z-10">
+                    Gratuit
+                  </h3>
+                  <p className="text-foreground/70 text-sm mb-6">
+                    Parfait pour débuter
+                  </p>
+
+                  <div className="mb-8 relative z-10">
+                    <div className="flex items-baseline">
+                      <span className="text-4xl font-bold">0€</span>
+                      <span className="text-foreground/60 ml-2">/mois</span>
+                    </div>
                   </div>
 
-                  <div className="mb-6">
-                    <span className="text-4xl font-bold">0€</span>
-                    <span className="text-foreground/60 ml-1">/mois</span>
-                  </div>
-
-                  <ul className="mb-8 flex-grow space-y-4">
-                    <li className="flex items-start">
+                  <ul className="mb-8 flex-grow space-y-4 relative z-10">
+                    <li className="flex items-center">
                       <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
+                        className="size-5 mr-3 text-indigo-500 flex-shrink-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -422,9 +261,9 @@ export default async function HomePage() {
                       </svg>
                       <span>Suivi de 3 habitudes</span>
                     </li>
-                    <li className="flex items-start">
+                    <li className="flex items-center">
                       <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
+                        className="size-5 mr-3 text-indigo-500 flex-shrink-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -438,9 +277,9 @@ export default async function HomePage() {
                       </svg>
                       <span>Journal quotidien</span>
                     </li>
-                    <li className="flex items-start">
+                    <li className="flex items-center">
                       <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
+                        className="size-5 mr-3 text-indigo-500 flex-shrink-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -454,41 +293,9 @@ export default async function HomePage() {
                       </svg>
                       <span>Graphiques de base</span>
                     </li>
-                    <li className="flex items-start text-foreground/50">
-                      <svg
-                        className="size-5 mr-3 text-foreground/30 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                      <span>Analyses avancées</span>
-                    </li>
-                    <li className="flex items-start text-foreground/50">
-                      <svg
-                        className="size-5 mr-3 text-foreground/30 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                      <span>Fonctionnalités communautaires</span>
-                    </li>
                   </ul>
 
-                  <Link href="/register" className="mt-auto">
+                  <Link href="/register" className="mt-auto relative z-10">
                     <Button
                       variant="outline"
                       className="w-full rounded-full py-6 border-indigo-500/20 hover:bg-white/5 transition-colors"
@@ -499,31 +306,31 @@ export default async function HomePage() {
                 </div>
 
                 {/* Premium Plan - Highlighted */}
-                <div className="relative">
-                  {/* Highlight effect */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl blur-sm opacity-70" />
+                <div className="relative md:scale-105 z-20 my-4 md:my-0">
+                  {/* Bordure simple au lieu d'un dégradé */}
+                  <div className="absolute -inset-1.5 border-2 border-indigo-500 rounded-3xl"></div>
 
-                  <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20 shadow-xl relative flex flex-col h-full">
-                    <div className="absolute top-0 right-8 transform -translate-y-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  <div className="group bg-background p-10 rounded-2xl border border-indigo-500/20 shadow-xl relative flex flex-col w-full md:w-80">
+                    <div className="absolute top-0 right-8 transform -translate-y-1/2 bg-indigo-600 text-white text-xs font-semibold px-4 py-1.5 rounded-full shadow-lg">
                       POPULAIRE
                     </div>
 
-                    <div className="mb-6">
-                      <h3 className="text-xl font-semibold mb-2">Premium</h3>
-                      <p className="text-foreground/70 text-sm">
-                        Pour les utilisateurs sérieux
-                      </p>
-                    </div>
+                    <h3 className="text-xl font-bold mb-1">Premium</h3>
+                    <p className="text-foreground/70 text-sm mb-6">
+                      Pour les utilisateurs sérieux
+                    </p>
 
-                    <div className="mb-6">
-                      <span className="text-4xl font-bold">9.99€</span>
-                      <span className="text-foreground/60 ml-1">/mois</span>
+                    <div className="mb-8">
+                      <div className="flex items-baseline">
+                        <span className="text-5xl font-bold">9.99€</span>
+                        <span className="text-foreground/60 ml-2">/mois</span>
+                      </div>
                     </div>
 
                     <ul className="mb-8 flex-grow space-y-4">
-                      <li className="flex items-start">
+                      <li className="flex items-center">
                         <svg
-                          className="size-5 mr-3 text-green-500 flex-shrink-0"
+                          className="size-5 mr-3 text-indigo-500 flex-shrink-0"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -537,9 +344,9 @@ export default async function HomePage() {
                         </svg>
                         <span>Habitudes illimitées</span>
                       </li>
-                      <li className="flex items-start">
+                      <li className="flex items-center">
                         <svg
-                          className="size-5 mr-3 text-green-500 flex-shrink-0"
+                          className="size-5 mr-3 text-indigo-500 flex-shrink-0"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -553,9 +360,9 @@ export default async function HomePage() {
                         </svg>
                         <span>Journal avancé avec tags</span>
                       </li>
-                      <li className="flex items-start">
+                      <li className="flex items-center">
                         <svg
-                          className="size-5 mr-3 text-green-500 flex-shrink-0"
+                          className="size-5 mr-3 text-indigo-500 flex-shrink-0"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -569,9 +376,9 @@ export default async function HomePage() {
                         </svg>
                         <span>Analyses IA personnalisées</span>
                       </li>
-                      <li className="flex items-start">
+                      <li className="flex items-center">
                         <svg
-                          className="size-5 mr-3 text-green-500 flex-shrink-0"
+                          className="size-5 mr-3 text-indigo-500 flex-shrink-0"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -585,141 +392,18 @@ export default async function HomePage() {
                         </svg>
                         <span>Graphiques interactifs avancés</span>
                       </li>
-                      <li className="flex items-start">
-                        <svg
-                          className="size-5 mr-3 text-green-500 flex-shrink-0"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                        <span>Accès à la communauté</span>
-                      </li>
                     </ul>
 
                     <Link href="/register" className="mt-auto">
-                      <Button className="w-full rounded-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border-none shadow-lg shadow-indigo-500/20 transition-all hover:shadow-indigo-500/30">
+                      <Button className="w-full rounded-full py-6 bg-indigo-600 hover:bg-indigo-500 border-none shadow-lg transition-all hover:shadow-lg hover:scale-[1.02]">
                         S&apos;abonner maintenant
                       </Button>
                     </Link>
                   </div>
                 </div>
-
-                {/* Business Plan */}
-                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-xl border border-indigo-500/10 hover:border-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/5 flex flex-col h-full">
-                  <div className="mb-6">
-                    <h3 className="text-xl font-semibold mb-2">Business</h3>
-                    <p className="text-foreground/70 text-sm">
-                      Pour les équipes et entreprises
-                    </p>
-                  </div>
-
-                  <div className="mb-6">
-                    <span className="text-4xl font-bold">24.99€</span>
-                    <span className="text-foreground/60 ml-1">/mois</span>
-                  </div>
-
-                  <ul className="mb-8 flex-grow space-y-4">
-                    <li className="flex items-start">
-                      <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span>Tout ce qui est inclus dans Premium</span>
-                    </li>
-                    <li className="flex items-start">
-                      <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span>Jusqu&apos;à 10 utilisateurs</span>
-                    </li>
-                    <li className="flex items-start">
-                      <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span>Tableau de bord d&apos;équipe</span>
-                    </li>
-                    <li className="flex items-start">
-                      <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span>Rapports analytiques avancés</span>
-                    </li>
-                    <li className="flex items-start">
-                      <svg
-                        className="size-5 mr-3 text-green-500 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span>Support prioritaire</span>
-                    </li>
-                  </ul>
-
-                  <Link href="/contact" className="mt-auto">
-                    <Button
-                      variant="outline"
-                      className="w-full rounded-full py-6 border-indigo-500/20 hover:bg-white/5 transition-colors"
-                    >
-                      Nous contacter
-                    </Button>
-                  </Link>
-                </div>
               </div>
 
-              <div className="mt-12 text-center">
+              <div className="mt-16 text-center">
                 <p className="text-foreground/60 text-sm">
                   Tous les prix sont en euros (EUR) et incluent la TVA. Annulez
                   à tout moment.
@@ -727,93 +411,11 @@ export default async function HomePage() {
                 <p className="text-foreground/60 text-sm mt-1">
                   <Link
                     href="/pricing"
-                    className="text-indigo-400 hover:underline"
+                    className="text-indigo-400 hover:text-indigo-300 hover:underline transition-colors"
                   >
                     Voir tous les détails des forfaits →
                   </Link>
                 </p>
-              </div>
-            </div>
-          </section>
-
-          {/* CTA Section */}
-          <section className="py-24 px-6 md:px-12 w-full relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 backdrop-blur-3xl opacity-30" />
-            <div className="absolute top-0 left-0 w-full h-full bg-[url('/pattern-grid.svg')] bg-repeat opacity-5" />
-
-            <div className="max-w-7xl mx-auto relative z-10">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-white/5 backdrop-blur-md p-10 md:p-16 rounded-3xl border border-white/10 shadow-2xl shadow-indigo-500/10">
-                <div className="max-w-2xl">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                    Prêt à transformer vos{" "}
-                    <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                      habitudes quotidiennes
-                    </span>
-                    ?
-                  </h2>
-                  <p className="text-lg text-foreground/80 mb-8">
-                    Rejoignez plus de 25 000 utilisateurs qui améliorent leur
-                    vie jour après jour avec MindTrack AI. Commencez
-                    gratuitement dès aujourd&apos;hui.
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/register">
-                      <Button className="rounded-full px-8 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border-none shadow-lg shadow-indigo-500/20 transition-all hover:shadow-indigo-500/30 hover:scale-[1.02] w-full sm:w-auto">
-                        Créer un compte gratuit
-                        <Zap className="ml-2 size-4" />
-                      </Button>
-                    </Link>
-                    <Link href="/login">
-                      <Button
-                        variant="outline"
-                        className="rounded-full px-8 py-6 border-white/20 bg-white/5 hover:bg-white/10 transition-colors w-full sm:w-auto"
-                      >
-                        Se connecter
-                      </Button>
-                    </Link>
-                  </div>
-
-                  <p className="text-sm text-foreground/60 mt-6 flex items-center">
-                    <svg
-                      className="size-4 mr-2 text-green-500"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Aucune carte de crédit requise
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30 animate-pulse" />
-                  <div className="relative bg-background/80 backdrop-blur-sm p-1 rounded-2xl border border-white/10">
-                    <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl overflow-hidden">
-                      <div className="aspect-[4/3] w-80 md:w-96 relative">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="size-16 mx-auto mb-4 rounded-full bg-indigo-500/20 flex items-center justify-center">
-                              <BrainCircuit className="size-8 text-indigo-500" />
-                            </div>
-                            <h3 className="font-semibold mb-2">
-                              Interface intuitive
-                            </h3>
-                            <p className="text-sm text-foreground/70 px-6">
-                              Visualisez vos progrès en un coup d&apos;œil
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </section>
@@ -863,7 +465,10 @@ export default async function HomePage() {
             </div>
 
             <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-foreground/60">
-              <p>© 2023 MindTrack AI. Tous droits réservés.</p>
+              <p>
+                © 2025 MindTrack AI. Tous droits réservés. - Projet annuel ESGI
+                M1
+              </p>
               <div className="flex gap-4 mt-4 md:mt-0">
                 <Link
                   href="#"

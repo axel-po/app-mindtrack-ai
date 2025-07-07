@@ -32,26 +32,6 @@ export function Header() {
         </Link>
 
         {/* Glass pill navigation for desktop */}
-        <nav className="hidden ml-12 md:flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-          <Link
-            href="/features"
-            className="text-sm font-medium px-3 py-1 rounded-full hover:bg-white/10 transition-colors"
-          >
-            Fonctionnalités
-          </Link>
-          <Link
-            href="/pricing"
-            className="text-sm font-medium px-3 py-1 rounded-full hover:bg-white/10 transition-colors"
-          >
-            Tarifs
-          </Link>
-          <Link
-            href="/about"
-            className="text-sm font-medium px-3 py-1 rounded-full hover:bg-white/10 transition-colors"
-          >
-            À propos
-          </Link>
-        </nav>
       </div>
 
       <div className="flex items-center gap-4">
