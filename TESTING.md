@@ -1,305 +1,127 @@
-# Guide de Test - MindTrack AI
+# Stratégie de Tests - MindTrack AI
 
-Ce guide explique comment utiliser les différents types de tests mis en place dans l'application MindTrack AI.
+Ce document décrit la stratégie de tests mise en place pour le projet MindTrack AI.
 
-## Types de Tests
+## Vue d'ensemble
 
-### 1. Tests Unitaires (Vitest)
+Notre approche de test suit la pyramide de tests classique :
 
-Les tests unitaires testent des composants individuels en isolation.
-
-**Localisation :**
-
-- `src/domain/entities/__tests__/`
-- `src/domain/usecases/__tests__/`
-- `src/infrastructure/repositories/__tests__/`
-
-**Commandes :**
-
-```bash
-# Exécuter tous les tests unitaires en mode watch
-npm run test
-
-# Exécuter les tests une fois
-npm run test:run
-
-# Exécuter avec couverture de code
-npm run test:coverage
-
-# Interface utilisateur pour les tests
-npm run test:ui
-```
-
-### 2. Tests d'Intégration (Vitest)
-
-Les tests d'intégration testent comment les différentes couches de l'application fonctionnent ensemble.
-
-**Localisation :** `src/__tests__/integration/`
-
-**Exemple :**
-
-```typescript
-// Test du flux complet habit creation
-describe("Habit Flow Integration Tests", () => {
-  it("should create a habit through the entire flow", async () => {
-    // Test use case + repository + entity
-  });
-});
-```
-
-### 3. Tests d'API (Vitest)
-
-Les tests d'API testent les endpoints REST de l'application.
-
-**Localisation :** `src/app/api/**/__tests__/`
-
-**Commandes :**
-
-```bash
-# Inclus dans les tests unitaires
-npm run test:run
-```
-
-### 4. Tests de Composants React (Vitest + Testing Library)
-
-Les tests de composants testent les composants React individuels.
-
-**Localisation :** `src/userinterface/components/**/__tests__/`
-
-**Exemple :**
-
-```typescript
-import { render, screen } from "@testing-library/react";
-import { HabitView } from "../HabitView";
-
-describe("HabitView", () => {
-  it("should render habits list", () => {
-    render(<HabitView />);
-    expect(screen.getByText("Exercise")).toBeInTheDocument();
-  });
-});
-```
-
-### 5. Tests End-to-End (Cypress)
-
-Les tests E2E testent l'application complète du point de vue utilisateur.
-
-**Localisation :** `cypress/e2e/`
-
-**Commandes :**
-
-```bash
-# Exécuter les tests E2E en mode headless
-npm run test:e2e
-
-# Ouvrir l'interface Cypress
-npm run test:e2e:open
-
-# Tests E2E headless pour CI
-npm run test:e2e:headless
-```
-
-### 6. Tests de Composants Cypress
-
-Tests de composants individuels dans un environnement réel.
-
-**Commandes :**
-
-```bash
-# Exécuter les tests de composants
-npm run test:component
-
-# Ouvrir l'interface pour les tests de composants
-npm run test:component:open
-```
-
-## Configuration des Tests
-
-### Vitest Configuration
-
-- **Fichier :** `vitest.config.ts`
-- **Setup :** `src/__tests__/setup.ts`
-- **Helpers :** `src/__tests__/utils/test-helpers.ts`
-
-### Cypress Configuration
-
-- **Fichier :** `cypress.config.ts`
-- **Support E2E :** `cypress/support/e2e.ts`
-- **Commandes :** `cypress/support/commands.ts`
-
-## Commandes de Test Globales
-
-```bash
-# Exécuter tous les tests (unitaires + E2E)
-npm run test:all
-
-# Commandes pour CI/CD
-npm run test:ci
-
-# Tests avec couverture de code
-npm run test:coverage
-```
+1. **Tests unitaires** : Tests des composants individuels
+2. **Tests d'intégration** : Tests des interactions entre composants
+3. **Tests end-to-end (E2E)** : Tests de l'application complète
 
 ## Structure des Tests
 
-### Tests Unitaires
-
 ```
 src/
+├── __tests__/                  # Tests d'intégration
+│   ├── integration/            # Tests d'intégration spécifiques
+│   │   └── habit-flow.test.ts
+│   │   └── journal-flow.test.ts
+│   ├── setup.ts                # Configuration des tests
+│   └── utils/                  # Utilitaires pour les tests
 ├── domain/
-│   ├── entities/__tests__/
-│   │   ├── habit.entity.test.ts
-│   │   └── journal.entity.test.ts
-│   └── usecases/__tests__/
-│       ├── habit.usecase.test.ts
-│       └── journal.usecase.test.ts
+│   ├── entities/
+│   │   └── __tests__/          # Tests unitaires des entités
+│   │       ├── habit.entity.test.ts
+│   │       └── journal.entity.test.ts
+│   └── usecases/
+│       └── __tests__/          # Tests unitaires des cas d'utilisation
+│           └── habit.usecase.test.ts
 ├── infrastructure/
-│   └── repositories/__tests__/
-│       ├── habits.repository.test.ts
-│       └── journal.repository.test.ts
+│   └── repositories/
+│       └── __tests__/          # Tests des repositories
 └── userinterface/
-    └── components/**/__tests__/
-        └── *.test.tsx
-```
-
-### Tests d'Intégration
-
-```
-src/__tests__/
-├── integration/
-│   ├── habit-flow.test.ts
-│   └── journal-flow.test.ts
-├── setup.ts
-└── utils/
-    └── test-helpers.ts
-```
-
-### Tests E2E
-
-```
+    └── components/
+        └── habits/
+            └── views/
+                └── __tests__/  # Tests des composants UI
 cypress/
-├── e2e/
-│   ├── habits.cy.ts
-│   ├── journal.cy.ts
-│   └── auth.cy.ts
-├── support/
-│   ├── commands.ts
-│   └── e2e.ts
-└── fixtures/
-    └── test-data.json
+└── e2e/                        # Tests end-to-end
+    ├── auth/                   # Tests d'authentification
+    ├── habits/                 # Tests des fonctionnalités d'habitudes
+    ├── habits.cy.ts
+    ├── journal/                # Tests des fonctionnalités de journal
+    └── journal.cy.ts
 ```
 
-## Mocking et Helpers
+## Tests Unitaires
 
-### Mocks Disponibles
+Les tests unitaires vérifient le comportement des composants individuels de l'application.
 
-- Database client mock
-- Auth service mock
-- Next.js navigation mock
-- API endpoints mock
+### Tests des Entités
 
-### Helpers de Test
+Les tests des entités (`domain/entities/__tests__/`) vérifient que les règles métier sont correctement implémentées :
 
-- `createMockHabit()` - Crée un habit de test
-- `createMockJournal()` - Crée un journal de test
-- `mockUser` - Utilisateur de test
-- `mockSession` - Session de test
+- **Habit Entity** : Vérifie la création, la validation et les méthodes de l'entité Habit
+- **Journal Entity** : Vérifie la création, la validation et les méthodes de l'entité Journal
 
-## Bonnes Pratiques
+### Tests des Cas d'Utilisation
 
-### 1. Tests Unitaires
+Les tests des cas d'utilisation (`domain/usecases/__tests__/`) vérifient la logique d'orchestration :
 
-- Tester une fonction/classe à la fois
-- Utiliser des mocks pour les dépendances
-- Tester les cas d'erreur
-- Vérifier les cas limites
+- **Habit Usecase** : Vérifie la création, la récupération, la mise à jour et la suppression des habitudes
 
-### 2. Tests d'Intégration
+## Tests d'Intégration
 
-- Tester les flux complets
-- Utiliser des mocks pour les services externes
-- Vérifier les interactions entre couches
+Les tests d'intégration (`src/__tests__/integration/`) vérifient les interactions entre différentes couches de l'application :
 
-### 3. Tests E2E
+- Tests des repositories avec la base de données
+- Tests des présentateurs avec les cas d'utilisation
+- Tests des actions serveur avec les cas d'utilisation
 
-- Tester les parcours utilisateur principaux
-- Utiliser des `data-testid` pour les sélecteurs
-- Nettoyer les données après chaque test
-- Tester sur différents viewports
+## Tests End-to-End (E2E)
 
-### 4. Tests de Composants
+Les tests E2E (`cypress/e2e/`) vérifient le comportement de l'application du point de vue de l'utilisateur :
 
-- Tester le rendu et les interactions
-- Utiliser les matchers de testing-library
-- Tester l'accessibilité
-- Mocker les props et hooks
+### Tests d'Authentification
 
-## Couverture de Code
+- Inscription d'un nouvel utilisateur
+- Connexion d'un utilisateur existant
+- Gestion des erreurs d'authentification
+
+### Tests des Habitudes
+
+- Création d'une nouvelle habitude
+- Mise à jour d'une habitude existante
+- Suppression d'une habitude
+- Marquage d'une habitude comme complétée
+
+### Tests du Journal
+
+- Création d'une nouvelle entrée de journal
+- Mise à jour d'une entrée de journal existante
+- Suppression d'une entrée de journal
+- Filtrage des entrées de journal
+
+## Exécution des Tests
 
 ```bash
-# Générer un rapport de couverture
-npm run test:coverage
+# Exécution des tests unitaires et d'intégration
+pnpm test
 
-# Ouvrir le rapport HTML
-open coverage/index.html
+# Exécution des tests unitaires avec couverture
+pnpm test:coverage
+
+# Exécution des tests E2E avec Cypress
+pnpm test:e2e
+
+# Exécution des tests E2E en mode headless
+pnpm test:e2e:headless
 ```
 
-**Objectifs de couverture :**
+## Mocks et Fixtures
 
-- Entités : 100%
-- Use cases : 95%
-- Repositories : 90%
-- Composants : 80%
+Les mocks et fixtures sont utilisés pour isoler les composants testés et simuler des dépendances externes :
 
-## Debugging des Tests
+- **Mocks de repositories** : Simulent l'accès à la base de données
+- **Mocks d'authentification** : Simulent l'authentification des utilisateurs
+- **Fixtures de données** : Fournissent des données de test cohérentes
 
-### Vitest
+## Intégration Continue (CI)
 
-```bash
-# Mode debug
-npm run test -- --reporter=verbose
+Les tests sont automatiquement exécutés dans le pipeline CI à chaque pull request :
 
-# Tests spécifiques
-npm run test -- src/domain/entities/__tests__/habit.entity.test.ts
-```
-
-### Cypress
-
-```bash
-# Mode debug avec interface
-npm run test:e2e:open
-
-# Screenshots et vidéos dans cypress/screenshots/ et cypress/videos/
-```
-
-## CI/CD Integration
-
-### GitHub Actions Example
-
-```yaml
-name: Tests
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: npm ci
-      - run: npm run test:ci
-```
-
-## Troubleshooting
-
-### Erreurs Communes
-
-1. **Mocks non configurés** : Vérifier `src/__tests__/setup.ts`
-2. **Timeout E2E** : Augmenter `defaultCommandTimeout` dans cypress.config.ts
-3. **Erreurs de types** : Vérifier les imports et les déclarations
-
-### Ressources
-
-- [Vitest Documentation](https://vitest.dev/)
-- [Cypress Documentation](https://docs.cypress.io/)
-- [Testing Library](https://testing-library.com/)
-- [Jest DOM Matchers](https://github.com/testing-library/jest-dom)
+1. Tests unitaires et d'intégration
+2. Vérification de la couverture de code
+3. Tests E2E avec Cypress
