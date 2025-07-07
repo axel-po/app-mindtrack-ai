@@ -1,4 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MindTrack AI
+
+Application de suivi d'habitudes et de journal personnel utilisant les principes de Clean Architecture.
+
+## Architecture du Projet
+
+Ce projet est structuré selon les principes de Clean Architecture, ce qui permet une séparation claire des responsabilités et une meilleure testabilité.
+
+### Structure des Dossiers
+
+```
+src/
+├── domain/               # Cœur de l'application (entités, cas d'utilisation)
+│   ├── entities/         # Objets métier avec logique et règles
+│   ├── models/           # Interfaces et types du domaine
+│   └── usecases/         # Logique d'application
+├── infrastructure/       # Implémentations techniques
+│   ├── database/         # Accès à la base de données
+│   ├── presenters/       # Transformation des données pour l'UI
+│   └── repositories/     # Implémentation des repositories
+├── userinterface/        # Interface utilisateur
+│   ├── actions/          # Actions serveur Next.js
+│   └── components/       # Composants React
+├── di/                   # Injection de dépendances
+└── lib/                  # Utilitaires et configurations
+```
+
+### Principes de Clean Architecture
+
+1. **Indépendance des frameworks** : Le cœur de l'application ne dépend pas des détails d'implémentation.
+2. **Testabilité** : Chaque couche peut être testée indépendamment.
+3. **Indépendance de l'UI** : L'interface utilisateur peut changer sans affecter la logique métier.
+4. **Indépendance de la base de données** : La logique métier ne dépend pas de la base de données.
+5. **Indépendance des agents externes** : Le cœur de l'application ne dépend pas des API externes.
+
+### Flux de Données
+
+1. **Entités** : Contiennent les règles métier critiques.
+2. **Cas d'utilisation** : Orchestrent le flux de données vers et depuis les entités.
+3. **Adaptateurs d'interface** : Convertissent les données entre le format pratique pour les cas d'utilisation et les entités.
+4. **Frameworks et drivers** : Outils et frameworks comme la base de données, le framework web, etc.
+
+### Technologies Utilisées
+
+- **Frontend** : Next.js, React, Tailwind CSS
+- **Backend** : Next.js, Server Actions
+- **Base de données** : SQL avec Drizzle ORM
+- **Authentification** : Better Auth
+- **Tests** : Vitest, Cypress
+
+## Installation et Démarrage
+
+```bash
+# Installation des dépendances
+pnpm install
+
+# Démarrage en mode développement
+pnpm dev
+
+# Construction pour la production
+pnpm build
+
+# Démarrage en mode production
+pnpm start
+```
+
+## Docker
+
+Le projet peut être exécuté dans Docker pour le développement et les tests :
+
+```bash
+# Construction et démarrage du conteneur de test
+docker-compose -f docker/test/docker-compose.yml up -d
+
+# Construction et démarrage du conteneur de production
+docker-compose -f docker/prod/docker-compose.yml up -d
+```
 
 ## Getting Started
 
