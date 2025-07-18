@@ -1,6 +1,5 @@
 describe("Habits E2E Tests", () => {
   beforeEach(() => {
-    // Visit the application
     cy.visit("/");
   });
 
@@ -11,15 +10,6 @@ describe("Habits E2E Tests", () => {
       cy.get('[data-testid="password-input"]').should("be.visible");
       cy.get('[data-testid="login-button"]').should("be.visible");
     });
-
-    // Note: This test will fail if the credentials are incorrect or the auth system isn't set up
-    // it("should login successfully", () => {
-    //   cy.visit("/login");
-    //   cy.get('[data-testid="email-input"]').type("test@example.com");
-    //   cy.get('[data-testid="password-input"]').type("password123");
-    //   cy.get('[data-testid="login-button"]').click();
-    //   cy.url().should("include", "/dashboard");
-    // });
   });
 
   describe("Form Validation", () => {
@@ -30,7 +20,6 @@ describe("Habits E2E Tests", () => {
     it("should show error for invalid email", () => {
       cy.get('[data-testid="email-input"]').type("invalid-email");
       cy.get('[data-testid="login-button"]').click();
-      // Utiliser une assertion plus générique pour détecter un message d'erreur
       cy.get("form")
         .contains(/email|courriel|valide/i)
         .should("be.visible");
@@ -57,11 +46,8 @@ describe("Habits E2E Tests", () => {
     });
   });
 
-  // Commented out Habit Management tests since they require authentication
-  /*
   describe("Habit Management", () => {
     beforeEach(() => {
-      // Login before each test
       cy.login("test@example.com", "password123");
       cy.visit("/dashboard/habits");
     });
@@ -74,7 +60,6 @@ describe("Habits E2E Tests", () => {
     it("should create a new habit", () => {
       cy.createHabit("Exercise", "Daily workout routine", "💪");
 
-      // Verify habit was created
       cy.get('[data-testid="habits-list"]').should("contain", "Exercise");
       cy.get('[data-testid="habits-list"]').should(
         "contain",
@@ -84,17 +69,14 @@ describe("Habits E2E Tests", () => {
     });
 
     it("should toggle habit completion", () => {
-      // Create a habit first
       cy.createHabit("Reading", "Read for 30 minutes");
 
-      // Find the habit and toggle completion
       cy.get('[data-testid^="habit-"]')
         .first()
         .within(() => {
           cy.get('[data-testid="toggle-completion-button"]').click();
         });
 
-      // Verify completion state
       cy.get('[data-testid="habit-completed-toast"]').should("be.visible");
       cy.get('[data-testid^="habit-"]')
         .first()
@@ -102,10 +84,8 @@ describe("Habits E2E Tests", () => {
     });
 
     it("should edit an existing habit", () => {
-      // Create a habit first
       cy.createHabit("Meditation", "Daily meditation");
 
-      // Edit the habit
       cy.get('[data-testid^="habit-"]')
         .first()
         .within(() => {
@@ -118,7 +98,6 @@ describe("Habits E2E Tests", () => {
         .type("Mindfulness practice");
       cy.get('[data-testid="update-habit-button"]').click();
 
-      // Verify habit was updated
       cy.get('[data-testid="habit-updated-toast"]').should("be.visible");
       cy.get('[data-testid="habits-list"]').should("contain", "Mindfulness");
       cy.get('[data-testid="habits-list"]').should(
@@ -128,10 +107,8 @@ describe("Habits E2E Tests", () => {
     });
 
     it("should delete a habit", () => {
-      // Create a habit first
       cy.createHabit("Temporary Habit", "This will be deleted");
 
-      // Get the habit ID from the list
       cy.get('[data-testid^="habit-"]')
         .first()
         .then(($habit) => {
@@ -141,7 +118,6 @@ describe("Habits E2E Tests", () => {
           }
         });
 
-      // Verify habit was deleted
       cy.get('[data-testid="habits-list"]').should(
         "not.contain",
         "Temporary Habit"
@@ -149,18 +125,15 @@ describe("Habits E2E Tests", () => {
     });
 
     it("should filter habits by completion status", () => {
-      // Create and complete some habits
       cy.createHabit("Completed Habit", "This is completed");
       cy.createHabit("Incomplete Habit", "This is not completed");
 
-      // Complete the first habit
       cy.get('[data-testid^="habit-"]')
         .first()
         .within(() => {
           cy.get('[data-testid="toggle-completion-button"]').click();
         });
 
-      // Filter by completed
       cy.get('[data-testid="filter-completed"]').click();
       cy.get('[data-testid="habits-list"]').should(
         "contain",
@@ -171,7 +144,6 @@ describe("Habits E2E Tests", () => {
         "Incomplete Habit"
       );
 
-      // Filter by incomplete
       cy.get('[data-testid="filter-incomplete"]').click();
       cy.get('[data-testid="habits-list"]').should(
         "contain",
@@ -183,10 +155,7 @@ describe("Habits E2E Tests", () => {
       );
     });
   });
-  */
 
-  // Commented out tests that require authentication
-  /*
   describe("Habit Statistics", () => {
     beforeEach(() => {
       cy.login("test@example.com", "password123");
@@ -212,7 +181,6 @@ describe("Habits E2E Tests", () => {
       cy.login("test@example.com", "password123");
       cy.visit("/dashboard/habits");
 
-      // Mobile-specific elements should be visible
       cy.get('[data-testid="mobile-menu-button"]').should("be.visible");
       cy.get('[data-testid="mobile-habits-list"]').should("be.visible");
     });
@@ -222,7 +190,6 @@ describe("Habits E2E Tests", () => {
       cy.login("test@example.com", "password123");
       cy.visit("/dashboard/habits");
 
-      // Tablet layout should be visible
       cy.get('[data-testid="tablet-layout"]').should("be.visible");
     });
   });
@@ -244,7 +211,6 @@ describe("Habits E2E Tests", () => {
       cy.login("test@example.com", "password123");
       cy.visit("/dashboard/habits");
 
-      // Try to create habit with empty name
       cy.get('[data-testid="add-habit-button"]').click();
       cy.get('[data-testid="create-habit-button"]').click();
 
@@ -255,9 +221,7 @@ describe("Habits E2E Tests", () => {
       );
     });
   });
-  */
 
-  // Basic responsive design test that doesn't require authentication
   describe("Responsive Design", () => {
     it("should render login form on mobile devices", () => {
       cy.viewport("iphone-6");
@@ -277,7 +241,6 @@ describe("Habits E2E Tests", () => {
   });
 
   afterEach(() => {
-    // Clean up after each test
     cy.window().then((win) => {
       win.localStorage.clear();
       win.sessionStorage.clear();
