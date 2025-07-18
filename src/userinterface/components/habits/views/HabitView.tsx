@@ -24,6 +24,9 @@ export default function HabitView() {
     completionStatus,
     loadHabits,
     toggleHabitCompletion,
+    createHabit,
+    updateHabit,
+    deleteHabit,
   } = useHabitViewModel();
 
   // Load data on component mount
@@ -46,7 +49,7 @@ export default function HabitView() {
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Mes Habitudes</h1>
-        <HabitDialog mode="create" />
+        <HabitDialog mode="create" onCreateHabit={createHabit} onUpdateHabit={updateHabit} />
       </div>
 
       <Card>
@@ -92,8 +95,8 @@ export default function HabitView() {
                     >
                       <CheckCircle className="h-4 w-4" />
                     </Toggle>
-                    <HabitDialog mode="edit" habit={habit} />
-                    <DeleteHabitDialog habit={habit} />
+                    <HabitDialog mode="edit" habit={habit} onCreateHabit={createHabit} onUpdateHabit={updateHabit} />
+                    <DeleteHabitDialog habit={habit} onDeleteHabit={deleteHabit} />
                   </div>
                 </div>
               ))}
@@ -111,7 +114,7 @@ export default function HabitView() {
                 progression
               </p>
               <div className="mt-4">
-                <HabitDialog mode="create" />
+                <HabitDialog mode="create" onCreateHabit={createHabit} onUpdateHabit={updateHabit} />
               </div>
             </div>
           )}

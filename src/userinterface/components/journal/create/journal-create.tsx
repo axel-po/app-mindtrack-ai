@@ -326,13 +326,16 @@ function JournalEntryForm({
 
 export function JournalCreateDialog({
   habits,
+  onSuccess,
 }: {
   habits: HabitPresentation[];
+  onSuccess?: () => void;
 }) {
   const [open, setOpen] = useState(false);
 
   const handleSuccess = () => {
     setOpen(false);
+    onSuccess?.();
   };
 
   return (
