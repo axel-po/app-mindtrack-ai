@@ -36,7 +36,7 @@
   --sidebar-accent-foreground: oklch(0 0 0);
   --sidebar-border: oklch(0.9401 0 0);
   --sidebar-ring: oklch(0 0 0);
-  --font-sans: Inter, sans-serif;
+  --font-sans: var(--font-roboto), Roboto, sans-serif;
   --font-serif: Roboto, sans-serif;
   --font-mono: Roboto Mono, monospace;
   --radius: 0.525rem;
@@ -90,7 +90,7 @@
   --sidebar-accent-foreground: oklch(0.6132 0.2294 291.7437);
   --sidebar-border: oklch(0.3289 0.0092 268.3843);
   --sidebar-ring: oklch(0.6132 0.2294 291.7437);
-  --font-sans: Inter, sans-serif;
+  --font-sans: var(--font-roboto), Roboto, sans-serif;
   --font-serif: Roboto, sans-serif;
   --font-mono: Roboto Mono, monospace;
   --radius: 0.525rem;
@@ -178,6 +178,6 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
 }
