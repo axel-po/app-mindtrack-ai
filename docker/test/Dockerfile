@@ -1,4 +1,3 @@
-#Test
 FROM node:24-alpine3.21
 
 WORKDIR /app
@@ -11,6 +10,4 @@ RUN pnpm install --include=dev
 
 COPY . .
 
-EXPOSE 3000
-
-CMD ["pnpm", "run", "test-husky"]
+CMD ["pnpm", "run", "test:run"]
