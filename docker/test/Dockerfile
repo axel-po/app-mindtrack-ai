@@ -10,4 +10,6 @@ RUN pnpm install --include=dev
 
 COPY . .
 
+RUN npx eslint . --ext .js,.ts
+
 CMD ["pnpm", "run", "test:run"]
