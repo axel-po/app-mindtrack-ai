@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/userinterface/components/ui/card";
 import { Badge } from "@/userinterface/components/ui/badge";
 import { Button } from "@/userinterface/components/ui/button";
@@ -23,11 +23,7 @@ export function FriendsOverview({ userId }: FriendsOverviewProps) {
   const [friends, setFriends] = useState<FriendWithUser[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadFriends();
-  }, [userId]);
-
-  const loadFriends = async () => {
+  const loadFriends = useCallback(async () => {
     try {
       setLoading(true);
       const result = await getFriends(userId);
@@ -39,7 +35,11 @@ export function FriendsOverview({ userId }: FriendsOverviewProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    loadFriends();
+  }, [loadFriends]);
 
   const handleRemoveFriend = async (friendshipId: string) => {
     try {
@@ -139,14 +139,14 @@ export function FriendsOverview({ userId }: FriendsOverviewProps) {
                           className="text-orange-600"
                         >
                           <UserMinus className="h-4 w-4 mr-2" />
-                          Supprimer l'ami
+                          Supprimer l&apos;ami
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleBlockUser(friendship.id)}
                           className="text-red-600"
                         >
                           <UserX className="h-4 w-4 mr-2" />
-                          Bloquer l'utilisateur
+                          Bloquer l&apos;utilisateur
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

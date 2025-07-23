@@ -1,6 +1,6 @@
 "use client";
 
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/userinterface/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/userinterface/components/ui/chart";
 import { Flame, Calendar } from "lucide-react";
@@ -37,7 +37,7 @@ export function HabitStreakChart({ data, currentStreak, highestStreak }: HabitSt
       <CardHeader>
         <CardTitle>Évolution des séries</CardTitle>
         <CardDescription>
-          Suivi de vos séries d'habitudes au fil du temps
+          Suivi de vos séries d&apos;habitudes au fil du temps
         </CardDescription>
       </CardHeader>
       <CardContent>

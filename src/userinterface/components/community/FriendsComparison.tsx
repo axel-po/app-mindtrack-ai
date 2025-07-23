@@ -135,7 +135,7 @@ export function FriendsComparison({ userId }: FriendsComparisonProps) {
                       {friendStats.completionRate.toFixed(1)}%
                     </p>
                     <p className="text-sm text-gray-500">
-                      {friendStats.completedHabitsToday}/{friendStats.totalHabits} aujourd'hui
+                      {friendStats.completedHabitsToday}/{friendStats.totalHabits} aujourd&apos;hui
                     </p>
                   </div>
                 </div>
@@ -151,7 +151,7 @@ export function FriendsComparison({ userId }: FriendsComparisonProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Target className="h-5 w-5" />
-                Progrès d'aujourd'hui
+                Progrès d&apos;aujourd&apos;hui
               </CardTitle>
             </CardHeader>
             <CardContent>

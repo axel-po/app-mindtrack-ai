@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/userinterface/components/ui/card";
 import { Button } from "@/userinterface/components/ui/button";
 import { Badge } from "@/userinterface/components/ui/badge";
@@ -22,11 +22,7 @@ export function FriendRequests({ userId }: FriendRequestsProps) {
   const [loading, setLoading] = useState(true);
   const [processingRequest, setProcessingRequest] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadRequests();
-  }, [userId]);
-
-  const loadRequests = async () => {
+  const loadRequests = useCallback(async () => {
     try {
       setLoading(true);
       const result = await getPendingRequests(userId);
@@ -38,7 +34,11 @@ export function FriendRequests({ userId }: FriendRequestsProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    loadRequests();
+  }, [loadRequests]);
 
   const handleAcceptRequest = async (friendshipId: string) => {
     try {
@@ -94,7 +94,7 @@ export function FriendRequests({ userId }: FriendRequestsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Demandes d'amitié</span>
+            <span>Demandes d&apos;amitié</span>
             <Badge variant="secondary">{requests.length}</Badge>
           </CardTitle>
         </CardHeader>
@@ -102,7 +102,7 @@ export function FriendRequests({ userId }: FriendRequestsProps) {
           {requests.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500 dark:text-gray-400">
-                Aucune demande d'amitié en attente
+                Aucune demande d&apos;amitié en attente
               </p>
             </div>
           ) : (

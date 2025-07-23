@@ -16,10 +16,7 @@ import { Input } from "@/userinterface/components/ui/input";
 import { Textarea } from "@/userinterface/components/ui/textarea";
 import { useState } from "react";
 import { EmojiPicker } from "../../@shared/emojis/emoji-picker";
-import {
-  useCreateHabitViewModel,
-  HabitFormData,
-} from "./create-habit.viewmodel";
+import "./create-habit.viewmodel";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,8 +45,8 @@ export function HabitDialog({
 }: {
   mode: "create" | "edit";
   habit?: HabitPresentation;
-  onCreateHabit?: (habitData: { name: string; description?: string; emoji?: string }) => Promise<any>;
-  onUpdateHabit?: (id: string, habitData: { name?: string; description?: string; emoji?: string }) => Promise<any>;
+  onCreateHabit?: (habitData: { name: string; description?: string; emoji?: string }) => Promise<unknown>;
+  onUpdateHabit?: (id: string, habitData: { name?: string; description?: string; emoji?: string }) => Promise<unknown>;
 }) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

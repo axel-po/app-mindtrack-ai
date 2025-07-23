@@ -81,7 +81,6 @@ export function WeeklyHeatmap({
     weeks.push(currentWeek);
   }
 
-  const maxValue = Math.max(...data.map(d => d.value));
   const totalActivities = data.reduce((sum, d) => sum + d.activities, 0);
 
   return (

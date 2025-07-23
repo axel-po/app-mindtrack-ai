@@ -35,10 +35,10 @@ export function InviteFriends({ userId }: InviteFriendsProps) {
         setInviteLink(`${window.location.origin}/invite/${result.data.token}`);
         setEmail("");
       } else {
-        setMessage(result.error || "Échec de l'envoi de l'invitation");
+        setMessage(result.error || "Échec de l&apos;envoi de l&apos;invitation");
       }
-    } catch (error) {
-      setMessage("Une erreur s'est produite lors de l'envoi de l'invitation");
+    } catch {
+      setMessage("Une erreur s&apos;est produite lors de l&apos;envoi de l&apos;invitation");
     } finally {
       setLoading(false);
     }
@@ -63,11 +63,11 @@ export function InviteFriends({ userId }: InviteFriendsProps) {
         <CardContent>
           <form onSubmit={handleInvite} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email de l'ami</Label>
+              <Label htmlFor="email">Email de l&apos;ami</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="Entrez l'email de votre ami"
+                placeholder="Entrez l&apos;email de votre ami"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -84,7 +84,7 @@ export function InviteFriends({ userId }: InviteFriendsProps) {
               ) : (
                 <Send className="h-4 w-4 mr-2" />
               )}
-              Envoyer l'invitation
+              Envoyer l&apos;invitation
             </Button>
           </form>
 
@@ -100,7 +100,7 @@ export function InviteFriends({ userId }: InviteFriendsProps) {
 
           {inviteLink && (
             <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-md">
-              <Label className="text-sm font-medium">Lien d'invitation</Label>
+              <Label className="text-sm font-medium">Lien d&apos;invitation</Label>
               <div className="flex items-center gap-2 mt-2">
                 <Input
                   value={inviteLink}
@@ -141,7 +141,7 @@ export function InviteFriends({ userId }: InviteFriendsProps) {
               <div>
                 <p className="font-medium">Envoyer une invitation</p>
                 <p className="text-sm text-gray-500">
-                  Entrez l'email de votre ami et nous lui enverrons une invitation pour rejoindre MindTrack
+                  Entrez l&apos;email de votre ami et nous lui enverrons une invitation pour rejoindre MindTrack
                 </p>
               </div>
             </div>
@@ -153,7 +153,7 @@ export function InviteFriends({ userId }: InviteFriendsProps) {
               <div>
                 <p className="font-medium">Ils rejoignent et acceptent</p>
                 <p className="text-sm text-gray-500">
-                  Votre ami crée un compte et accepte votre demande d'amitié
+                  Votre ami crée un compte et accepte votre demande d&apos;amitié
                 </p>
               </div>
             </div>
@@ -165,7 +165,7 @@ export function InviteFriends({ userId }: InviteFriendsProps) {
               <div>
                 <p className="font-medium">Suivre ensemble</p>
                 <p className="text-sm text-gray-500">
-                  Comparez vos progrès d'habitudes et motivez-vous mutuellement pour rester cohérents
+                  Comparez vos progrès d&apos;habitudes et motivez-vous mutuellement pour rester cohérents
                 </p>
               </div>
             </div>

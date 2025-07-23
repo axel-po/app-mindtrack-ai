@@ -6,7 +6,7 @@ import {
   Friendship,
   FriendInvitation 
 } from "@/domain/models/friendship.interface";
-import { FriendshipEntity, FriendInvitationEntity } from "@/domain/entities/friendship.entity";
+import { FriendInvitationEntity } from "@/domain/entities/friendship.entity";
 
 export class FriendshipUseCase {
   constructor(

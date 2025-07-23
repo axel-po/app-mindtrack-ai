@@ -1,6 +1,6 @@
 "use client";
 
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/userinterface/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/userinterface/components/ui/chart";
 import { TrendingUp } from "lucide-react";
@@ -50,7 +50,7 @@ export function MoodTrendsChart({ data }: MoodTrendsChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Évolution de l'humeur</CardTitle>
+        <CardTitle>Évolution de l&apos;humeur</CardTitle>
         <CardDescription>
           Tendance de vos humeurs au fil du temps
         </CardDescription>

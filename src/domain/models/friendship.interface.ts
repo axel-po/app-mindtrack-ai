@@ -1,8 +1,6 @@
 import { 
   friendships, 
-  friendInvitations,
-  type Friendship as FriendshipSchema,
-  type FriendInvitation as FriendInvitationSchema 
+  friendInvitations
 } from "@/infrastructure/database/schemas/friendships.schema";
 import { UserModel } from "@/infrastructure/database/schemas/user.schema";
 import { Habit } from "./habit.interface";

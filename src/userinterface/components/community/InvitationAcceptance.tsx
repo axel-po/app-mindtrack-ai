@@ -31,11 +31,11 @@ export function InvitationAcceptance({ token, userId }: InvitationAcceptanceProp
         }, 2000);
       } else {
         setStatus("error");
-        setMessage(result.error || "Échec de l'acceptation de l'invitation");
+        setMessage(result.error || "Échec de l&apos;acceptation de l&apos;invitation");
       }
     } catch {
       setStatus("error");
-      setMessage("Une erreur s'est produite lors de l'acceptation de l'invitation");
+      setMessage("Une erreur s&apos;est produite lors de l&apos;acceptation de l&apos;invitation");
     } finally {
       setLoading(false);
     }

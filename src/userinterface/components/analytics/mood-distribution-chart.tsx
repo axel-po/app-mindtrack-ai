@@ -1,6 +1,6 @@
 "use client";
 
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/userinterface/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/userinterface/components/ui/chart";
 import { TrendingUp } from "lucide-react";
@@ -57,7 +57,7 @@ export function MoodDistributionChart({ data }: MoodDistributionChartProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Distribution de l'humeur</CardTitle>
+        <CardTitle>Distribution de l&apos;humeur</CardTitle>
         <CardDescription>Répartition de vos humeurs sur la période</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">

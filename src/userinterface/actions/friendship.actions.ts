@@ -16,7 +16,7 @@ export async function getFriends(userId: string) {
       data: result.data,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       data: null,
@@ -33,7 +33,7 @@ export async function getPendingRequests(userId: string) {
       data: result.data,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       data: null,
@@ -50,7 +50,7 @@ export async function sendFriendRequest(requesterId: string, addresseeId: string
       data: result.data,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       data: null,
@@ -66,7 +66,7 @@ export async function acceptFriendRequest(friendshipId: string, userId: string) 
       success: result.success,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: "Failed to accept friend request",
@@ -81,7 +81,7 @@ export async function declineFriendRequest(friendshipId: string, userId: string)
       success: result.success,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: "Failed to decline friend request",
@@ -96,7 +96,7 @@ export async function removeFriend(friendshipId: string, userId: string) {
       success: result.success,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: "Failed to remove friend",
@@ -111,7 +111,7 @@ export async function blockUser(friendshipId: string, userId: string) {
       success: result.success,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: "Failed to block user",
@@ -127,7 +127,7 @@ export async function getFriendHabitStats(userId: string, friendId: string) {
       data: result.data,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       data: null,
@@ -144,7 +144,7 @@ export async function getAllFriendsHabitStats(userId: string) {
       data: result.data,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       data: null,
@@ -161,7 +161,7 @@ export async function inviteFriend(inviterId: string, email: string) {
       data: result.data,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       data: null,
@@ -177,7 +177,7 @@ export async function acceptInvitation(token: string, userId: string) {
       success: result.success,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: "Failed to accept invitation",
@@ -193,7 +193,7 @@ export async function getUserInvitations(userId: string) {
       data: result.data,
       error: result.error?.message,
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       data: null,

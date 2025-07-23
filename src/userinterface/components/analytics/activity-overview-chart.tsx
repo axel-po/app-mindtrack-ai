@@ -40,7 +40,7 @@ export function ActivityOverviewChart({ data }: ActivityOverviewChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Vue d'ensemble de l'activité</CardTitle>
+        <CardTitle>Vue d&apos;ensemble de l&apos;activité</CardTitle>
         <CardDescription>
           Résumé de vos activités et performances
         </CardDescription>
