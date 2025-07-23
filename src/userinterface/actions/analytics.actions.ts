@@ -53,3 +53,57 @@ export async function getMoodDistribution(): Promise<{
     return { data: [], error: "Failed to fetch mood distribution" };
   }
 }
+
+export async function getActivityOverview(): Promise<{
+  data: {
+    totalJournalEntries: number;
+    totalHabits: number;
+    averageCompletionRate: number;
+    entriesThisWeek: number;
+    entriesLastWeek: number;
+    activeHabits: number;
+  };
+  error?: string;
+}> {
+  try {
+    const user = await getUser();
+    if (!user) {
+      return { 
+        data: {
+          totalJournalEntries: 0,
+          totalHabits: 0,
+          averageCompletionRate: 0,
+          entriesThisWeek: 0,
+          entriesLastWeek: 0,
+          activeHabits: 0,
+        }, 
+        error: "User not authenticated" 
+      };
+    }
+
+    // Mock data for now - would be implemented in analytics use case
+    const mockData = {
+      totalJournalEntries: 45,
+      totalHabits: 8,
+      averageCompletionRate: 72.5,
+      entriesThisWeek: 5,
+      entriesLastWeek: 3,
+      activeHabits: 6,
+    };
+
+    return { data: mockData };
+  } catch (error) {
+    console.error("Error in getActivityOverview action:", error);
+    return { 
+      data: {
+        totalJournalEntries: 0,
+        totalHabits: 0,
+        averageCompletionRate: 0,
+        entriesThisWeek: 0,
+        entriesLastWeek: 0,
+        activeHabits: 0,
+      }, 
+      error: "Failed to fetch activity overview" 
+    };
+  }
+}

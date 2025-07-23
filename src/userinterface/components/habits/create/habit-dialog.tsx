@@ -43,12 +43,16 @@ type HabitFormValues = z.infer<typeof habitSchema>;
 export function HabitDialog({
   mode,
   habit,
+  onCreateHabit,
+  onUpdateHabit,
 }: {
   mode: "create" | "edit";
   habit?: HabitPresentation;
+  onCreateHabit?: (habitData: { name: string; description?: string; emoji?: string }) => Promise<any>;
+  onUpdateHabit?: (id: string, habitData: { name?: string; description?: string; emoji?: string }) => Promise<any>;
 }) {
   const [open, setOpen] = useState(false);
-  const { createHabit, updateHabit, isLoading } = useCreateHabitViewModel();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<HabitFormValues>({
     resolver: zodResolver(habitSchema),
@@ -60,25 +64,31 @@ export function HabitDialog({
   });
 
   async function onSubmit(values: HabitFormValues) {
-    const habitData: HabitFormData = {
+    const habitData = {
       name: values.name,
       description: values.description,
       emoji: values.emoji,
     };
 
-    if (mode === "create") {
-      const result = await createHabit(habitData);
+    setIsLoading(true);
 
-      if (result) {
-        setOpen(false);
-        form.reset();
-      }
-    } else if (habit) {
-      const result = await updateHabit(habit.id, habitData);
+    try {
+      if (mode === "create" && onCreateHabit) {
+        const result = await onCreateHabit(habitData);
 
-      if (result) {
-        setOpen(false);
+        if (result) {
+          setOpen(false);
+          form.reset();
+        }
+      } else if (habit && onUpdateHabit) {
+        const result = await onUpdateHabit(habit.id, habitData);
+
+        if (result) {
+          setOpen(false);
+        }
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 

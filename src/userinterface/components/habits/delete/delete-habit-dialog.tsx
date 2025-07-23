@@ -14,14 +14,27 @@ import {
 import { useState } from "react";
 import { useDeleteHabitViewModel } from "./delete-habit-dialog.viewmodel";
 
-export function DeleteHabitDialog({ habit }: { habit: HabitPresentation }) {
+export function DeleteHabitDialog({ 
+  habit, 
+  onDeleteHabit 
+}: { 
+  habit: HabitPresentation;
+  onDeleteHabit?: (id: string) => Promise<boolean>;
+}) {
   const [open, setOpen] = useState(false);
-  const { deleteHabit, isLoading } = useDeleteHabitViewModel();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleDelete() {
-    const success = await deleteHabit(habit.id);
-    if (success) {
-      setOpen(false);
+    if (!onDeleteHabit) return;
+    
+    setIsLoading(true);
+    try {
+      const success = await onDeleteHabit(habit.id);
+      if (success) {
+        setOpen(false);
+      }
+    } finally {
+      setIsLoading(false);
     }
   }
 

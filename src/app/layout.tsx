@@ -2,6 +2,13 @@ import { Toaster } from "@/userinterface/components/ui/sonner";
 import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/userinterface/components/@shared/theme/theme-provider";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-roboto",
+});
 
 export const metadata = {
   title: "MindTrack AI - Suivez vos habitudes et améliorez votre quotidien",
@@ -16,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body>
+      <body className={roboto.variable}>
         <Script
           src="https://app.rybbit.io/api/script.js"
           data-site-id="1523"

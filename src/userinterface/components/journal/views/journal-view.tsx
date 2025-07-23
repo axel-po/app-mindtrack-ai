@@ -41,7 +41,7 @@ export default function JournalView() {
               Suivez votre humeur et vos habitudes quotidiennes
             </CardDescription>
           </div>
-          <JournalCreateDialog habits={habits} />
+          <JournalCreateDialog habits={habits} onSuccess={loadJournals} />
         </div>
       </CardHeader>
       <CardContent>

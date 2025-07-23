@@ -93,6 +93,22 @@ export default function JournalList({
     setIsUpdating((prev) => ({ ...prev, [updateId]: true }));
 
     try {
+      // Get current journal before optimistic update
+      const currentJournal = localJournals.find((j) => j.id === journalId);
+      if (!currentJournal) return;
+
+      // Calculate new habit IDs
+      const currentHabitIds = currentJournal.habits.map((h) => h.id);
+      let newHabitIds: string[];
+
+      if (isCurrentlyCompleted) {
+        // Remove habit
+        newHabitIds = currentHabitIds.filter((id) => id !== habitId);
+      } else {
+        // Add habit
+        newHabitIds = [...currentHabitIds, habitId];
+      }
+
       // Optimistically update the UI first
       setLocalJournals((prev) =>
         prev.map((journal) => {
@@ -120,28 +136,25 @@ export default function JournalList({
         })
       );
 
-      // Get current journal
-      const journal = localJournals.find((j) => j.id === journalId);
-      if (!journal) return;
-
-      // Update habits
-      const currentHabitIds = journal.habits.map((h) => h.id);
-      let newHabitIds: string[];
-
-      if (isCurrentlyCompleted) {
-        // Remove habit
-        newHabitIds = currentHabitIds.filter((id) => id !== habitId);
-      } else {
-        // Add habit
-        newHabitIds = [...currentHabitIds, habitId];
-      }
-
       // Update journal with new habits
       const result = await updateJournal(journalId, { habitIds: newHabitIds });
 
       if (!result) {
         throw new Error("Failed to update journal");
       }
+
+      // Update local state with the result from backend
+      setLocalJournals((prev) =>
+        prev.map((journal) => {
+          if (journal.id === journalId) {
+            return {
+              ...journal,
+              ...result,
+            };
+          }
+          return journal;
+        })
+      );
     } catch (error) {
       console.error("Failed to toggle habit:", error);
       toast.error("Erreur lors de la mise à jour de l'habitude");
@@ -316,7 +329,7 @@ export default function JournalList({
           <tbody>
             {paginatedJournals.map((journal) => (
               <JournalItem
-                key={journal.id}
+                key={`${journal.id}-${journal.habits.map(h => h.id).join('-')}`}
                 journal={journal}
                 habits={displayHabits}
                 onToggleHabit={handleToggleHabit}
