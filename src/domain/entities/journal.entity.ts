@@ -21,7 +21,11 @@ export class JournalEntity {
   }
 
   getDisplayDate(): string {
-    return this.date.toLocaleDateString();
+    return this.date.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
   }
 
   getMoodEmoji(): string {
